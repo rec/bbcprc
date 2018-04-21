@@ -1,17 +1,18 @@
-import itertools, os, subprocess, time
+import itertools, os, subprocess, sys, time
 
 FIRST_INDEX = 7030001
-DOWNLOAD_TIMEOUT = 2
-FAILURE_TIMEOUT = 2
+DOWNLOAD_TIMEOUT = 6
+FAILURE_TIMEOUT = 6
 
-OUTPUT_DIR = 'sounds'
+OUTPUT_DIR = '/Volumes/Bach/disks/bbcsfx'
 EXISTING = set(os.listdir(OUTPUT_DIR))
 NONEXISTENT_FILE = 'nonexistent_file.txt'
 
 URL_ROOT = 'http://bbcsfx.acropolis.org.uk/assets'
 
 
-def get_files():
+def get_files(index=FIRST_INDEX):
+    index = int(index)
     try:
         nonexistent = open(NONEXISTENT_FILE).read()
     except FileNotFoundError:
@@ -20,7 +21,7 @@ def get_files():
     nonexistent = set(s.strip() for s in nonexistent.splitlines())
 
     for i in itertools.count():
-        filename = '0%d.wav' % (FIRST_INDEX + i)
+        filename = '0%d.wav' % (index + i)
         if filename in EXISTING or filename in nonexistent:
             continue
 
@@ -33,6 +34,13 @@ def get_files():
             subprocess.check_output(cmd)
             print('\n', filename, '*** Downloaded')
             time.sleep(DOWNLOAD_TIMEOUT)
+        except KeyboardInterrupt:
+            try:
+                os.remove(outfile)
+                print('*** Removed', outfile)
+            except:
+                print('*** FAILED to remove', outfile)
+            raise
         except:
             with open(NONEXISTENT_FILE, 'a') as fp:
                 fp.write(filename)
@@ -41,4 +49,4 @@ def get_files():
 
 
 if __name__ == '__main__':
-    get_files()
+    get_files(*sys.argv[1:])
