@@ -1,23 +1,19 @@
 import itertools, os, random, subprocess, sys, time, traceback
-
-TIMEOUT = 2
-
-OUTPUT_DIR = '/Volumes/Bach/disks/bbcsfx'
-FILES = {i.strip() for i in open('all_filenames.txt')}
-URL_ROOT = 'http://bbcsfx.acropolis.org.uk/assets'
+from . import constants
 
 
 def get_files():
     while True:
-        existing = {i for i in os.listdir(OUTPUT_DIR) if i.endswith('.wav')}
-
-        missing = list(FILES - existing)
+        existing = os.listdir(constants.OUTPUT_DIR)
+        existing = {i for i in existing if i.endswith('.wav')}
+        all_filenames = {i.strip() for i in open('all_filenames.txt')}
+        missing = list(all_filenames - existing)
         if not missing:
             break
 
         filename = random.choice(missing)
-        url = '%s/%s' % (URL_ROOT, filename)
-        outfile = '%s/%s' % (OUTPUT_DIR, filename)
+        url = '%s/%s' % (constants.URL_ROOT, filename)
+        outfile = '%s/%s' % (constants.OUTPUT_DIR, filename)
         print('Downloading', filename, '-', len(missing) - 1, 'to go')
         cmd = ('curl', '-o', outfile, url)
 
@@ -36,7 +32,7 @@ def get_files():
                 os.remove(outfile)
             except:
                 pass
-        time.sleep(TIMEOUT)
+        time.sleep(constants.TIMEOUT)
 
 
 if __name__ == '__main__':

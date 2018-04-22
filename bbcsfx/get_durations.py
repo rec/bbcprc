@@ -1,24 +1,20 @@
 import datetime, json, os, time, wave
 import numpy as np
-from . import to_npy
-
-DURATION_FILE = 'durations.json'
-OUTPUT_DIR = '/Volumes/Bach/disks/bbcsfx'
-EXISTING = set(os.listdir(OUTPUT_DIR))
-WRITE_CUTOFF = 20
-ATTRIBUTES = 'sample_width', 'frame_rate', 'duration_seconds'
+from . import constants, to_npy
 
 
 def get_sizes():
+    existing = set(os.listdir(constants.OUTPUT_DIR))
     try:
-        sizes = json.load(open(DURATION_FILE))
+        sizes = json.load(open(constants.DURATION_FILE))
         # sizes = {}
     except:
         sizes = {}
 
-    for filename in sorted(EXISTING - set(sizes)):
+    for filename in sorted(existing - set(sizes)):
         try:
-            samples = to_npy.read(os.path.join(OUTPUT_DIR, filename))
+            fn = os.path.join(constants.OUTPUT_DIR, filename)
+            samples = to_npy.read(fn)
         except wave.Error:
             # print('Not a wave file:', filename)
             continue
@@ -33,11 +29,11 @@ def get_sizes():
         rms = np.sqrt(np.mean(np.square(samples)))
         sizes[filename] = len(samples), rms
 
-        seconds = len(samples) / 44100
+        seconds = len(samples) / constants.FRAME_RATE
         duration = datetime.timedelta(seconds=seconds)
         print(filename, str(duration), len(samples), rms / 0x8000)
 
-        with open(DURATION_FILE, 'w') as fp:
+        with open(constants.DURATION_FILE, 'w') as fp:
             json.dump(sizes, fp, indent=4, sort_keys=True)
         # break
 

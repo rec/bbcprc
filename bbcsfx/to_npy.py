@@ -1,4 +1,5 @@
 import numpy as np, wave
+from . imnport constants
 
 
 def from_frames(frames, dtype='double'):
@@ -22,7 +23,7 @@ def read(filename, dtype='double'):
     with wave.open(filename) as fp:
         assert fp.getnchannels() == 2
         assert fp.getsampwidth() == 2
-        assert fp.getframerate() == 44100
+        assert fp.getframerate() == constants.FRAME_RATE
         return from_frames(fp.readframes(fp.getnframes()), dtype)
 
 
@@ -30,6 +31,6 @@ def write(filename, samples):
     with wave.open(filename, 'wb') as fp:
         fp.setnchannels(2)
         fp.setsampwidth(2)
-        fp.setframerate(44100)
+        fp.setframerate(constants.FRAME_RATE)
         fp.setnframes(len(samples))
         fp.writeframes(to_frames(samples))

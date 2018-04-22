@@ -1,19 +1,17 @@
 import datetime, json, os, time, wave
 import numpy as np
-from . import to_npy
-
-DURATION_FILE = 'durations.json'
+from . import constants, to_npy
 
 
 def to_duration(frames):
-    seconds = frames / 44100
+    seconds = frames / constants.FRAME_RATE
     duration = datetime.timedelta(seconds=seconds)
     return str(duration)
 
 
 def report_durations():
     try:
-        sizes = json.load(open(DURATION_FILE))
+        sizes = json.load(open(constants.DURATION_FILE))
     except:
         sizes = {}
 
