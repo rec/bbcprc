@@ -19,18 +19,28 @@ def to_frames(samples):
     return samples.astype('int16').tobytes()
 
 
-def read(filename, dtype='double'):
+def read_frames(filename):
     with wave.open(filename) as fp:
         assert fp.getnchannels() == 2
         assert fp.getsampwidth() == 2
         assert fp.getframerate() == constants.FRAME_RATE
-        return from_frames(fp.readframes(fp.getnframes()), dtype)
+        return fp.readframes(fp.getnframes())
+
+
+def read(filename, dtype='double'):
+    frames = read_frames(filename)
+    return from_frames(frames, dtype)
 
 
 def write(filename, samples):
+    frames = to_frames(samples)
+    write_frames(filename, frames)
+
+
+def write_frames(filename, frames):
     with wave.open(filename, 'wb') as fp:
         fp.setnchannels(2)
         fp.setsampwidth(2)
         fp.setframerate(constants.FRAME_RATE)
         fp.setnframes(len(samples))
-        fp.writeframes(to_frames(samples))
+        fp.writeframes(frames)
