@@ -3,7 +3,7 @@ import numpy as np, wave
 
 def from_frames(frames, dtype='double'):
     vector = np.frombuffer(frames, dtype='int16')
-    samples = vector.reshape((2, -1))
+    samples = vector.reshape((-1, 2))
     return samples.astype(dtype)
 
 
