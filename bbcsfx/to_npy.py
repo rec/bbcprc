@@ -1,5 +1,5 @@
 import numpy as np, wave
-from . imnport constants
+from . import constants
 
 
 def from_frames(frames, dtype='double'):
