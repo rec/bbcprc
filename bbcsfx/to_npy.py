@@ -38,9 +38,9 @@ def write(filename, samples):
 
 
 def write_frames(filename, frames):
+    assert len(frames) % 4 == 0
     with wave.open(filename, 'wb') as fp:
         fp.setnchannels(2)
         fp.setsampwidth(2)
         fp.setframerate(constants.FRAME_RATE)
-        fp.setnframes(len(samples))
         fp.writeframes(frames)

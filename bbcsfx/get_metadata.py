@@ -18,7 +18,7 @@ def write_metadata_for_one_file(filename):
         }
 
     metadata_file = os.path.join(constants.METADATA_DIR, filename + '.json')
-    json.dump(metadata, open(metadata_file, 'w'))
+    json.dump(metadata, open(metadata_file, 'w'), sort_keys=True)
 
 
 def get_missing():
@@ -41,5 +41,13 @@ def get_metadata():
             workers.run(write_metadata_for_one_file, filename)
 
 
+def fix_files():
+    os.chdir(constants.METADATA_DIR)
+    for f in os.listdir('.'):
+        data = json.load(open(f))
+        json.dump(data, open(f, 'w'), sort_keys=True)
+
+
 if __name__ == '__main__':
-    get_metadata()
+    fix_files()
+    # get_metadata()

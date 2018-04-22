@@ -1,5 +1,5 @@
 import os
-from . import constants, to_npy
+from . import constants, to_npy, worker
 
 
 def write_clip(filename, seconds=1):
@@ -15,11 +15,11 @@ def write_clip(filename, seconds=1):
     frame_count = len(frames) / 4
     middle = int(frame_count / 2)
 
-    clip_frame_count = int(seconds * constants.SAMPLE_RATE)
+    clip_frame_count = int(seconds * constants.FRAME_RATE)
     half = int(clip_frame_count / 2)
 
     begin = middle - half
-    end = start + clip_frame_count
+    end = begin + clip_frame_count
 
     if 0 < begin < end <= len(frames):
         frames = frames[begin:end]
@@ -27,3 +27,17 @@ def write_clip(filename, seconds=1):
         print('Too short!', filename, begin, end, len(frames))
 
     to_npy.write_frames(clip_file, frames)
+
+
+def write_all_clips():
+    with worker.Workers(2) as workers:
+        files = sorted(os.listdir(constants.OUTPUT_DIR))
+        # files = files[3000:3000 + 16]
+        for filename in files:
+            workers.run(write_clip, filename)
+
+
+if __name__ == '__main__':
+    write_all_clips()
+
+    # write_clip(sorted(os.listdir(constants.OUTPUT_DIR))[1000])

@@ -13,8 +13,10 @@ class Worker(mp.Process):
         for command, *args in iter(self.queue.get, None):
             try:
                 command(*args)
-            except:
-                traceback.print_exc()
+            except Exception as e:
+                name = getattr(command, 'name', str(command))
+                print('ERROR on command', name, args, e)
+                # traceback.print_exc()
             else:
                 counter = self._increment_counter()
                 self._log(command, args, counter)
@@ -28,12 +30,13 @@ class Worker(mp.Process):
         delta_t = time.time() - self.time
         average = delta_t / counter
 
-        msg = '{command}({args}) -> {counter} ({average})'
+        command = getattr(command, '__name__', str(command))
+        msg = '{command}{args} -> {counter} ({average})'
         print(msg.format(**locals()))
 
 
 class Workers:
-    def __init__(self, count):
+    def __init__(self, count=4):
         self.queue = mp.Queue()
         self.counter = mp.Value('i')
         self.workers = [Worker(self.queue, self.counter) for i in range(count)]
