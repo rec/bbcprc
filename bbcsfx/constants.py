@@ -2,10 +2,10 @@ import os
 
 TIMEOUT = 2
 
-SOURCE_DIR = '/Volumes/Bach/disks/bbcsfx'
-METADATA_DIR = 'results/metadata'
-CLIP_DIR = '/Volumes/Bach/disks/bbcsfx_clips'
-DIRECTORIES = SOURCE_DIR, METADATA_DIR, CLIP_DIR
+ROOT_DIR = '/Volumes/Bach/disks/bbcsfx'
+SOURCE_DIR = os.path.join(ROOT_DIR, 'source')
+METADATA_DIR = os.path.join(ROOT_DIR, 'metadata')
+CLIPS_DIR = os.path.join(ROOT_DIR, 'clips')
 
 URL_ROOT = 'http://bbcsfx.acropolis.org.uk/assets'
 ALL_FILENAMES = 'results/all_filenames.txt'
