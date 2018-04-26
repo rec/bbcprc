@@ -14,21 +14,30 @@ def report_durations():
 
     d = {}
     for f in metadata_files:
-        for k, v in json.load(open(f)).items():
+        metadata = json.load(open(f))
+        if not metadata:
+            print('Empty file', f)
+        for k, v in metadata.items():
             d.setdefault(k, []).append(v)
 
-    print('Number of files', len(metadata_files))
-    average_frame_count = sum(d['frame_count']) / len(d['frame_count'])
-    print('Average length', to_duration(average_frame_count))
-    print('Min length', to_duration(min(d['frame_count'])))
-    print('Max length', to_duration(max(d['frame_count'])))
+    frame_counts, rms, errors = d['frame_count'], d['rms'], d['error']
 
-    average_rms = sum(d['rms']) / len(d['rms'])
+    print('Total number of files', len(metadata_files))
+    print('Error count', len(errors))
+    print('Successful files', len(frame_counts))
+
+    total_length = sum(frame_counts)
+    average_frame_count = total_length / len(frame_counts)
+    print('Total length', to_duration(total_length))
+    print('Average length', to_duration(average_frame_count))
+    print('Min length', to_duration(min(frame_counts)))
+    print('Max length', to_duration(max(frame_counts)))
+
+    average_rms = sum(rms) / len(rms)
     print('Average rms', average_rms)
-    print('Min rms', min(d['rms']))
-    print('Max rms', max(d['rms']))
-    print('Error count', len(d['error']))
-    errors = sorted(set(tuple(i) for i in d['error']))
+    print('Min rms', min(rms))
+    print('Max rms', max(rms))
+    errors = sorted(set(tuple(i) for i in errors))
     print('Errors', errors)
 
 
