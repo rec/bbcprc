@@ -1,9 +1,11 @@
 import time, traceback
 import multiprocessing as mp
 
+DEFAULT_COUNT = 4
+
 
 class Worker(mp.Process):
-    def __init__(self, queue, counter, use_logging=False):
+    def __init__(self, queue, counter, use_logging=True):
         super().__init__()
         self.time = time.time()
         self.queue = queue
@@ -38,7 +40,7 @@ class Worker(mp.Process):
 
 
 class Workers:
-    def __init__(self, count=4):
+    def __init__(self, count=DEFAULT_COUNT):
         self.queue = mp.Queue()
         self.counter = mp.Value('i')
         self.workers = [Worker(self.queue, self.counter) for i in range(count)]
@@ -54,3 +56,10 @@ class Workers:
 
     def run(self, *args):
         self.queue.put(args)
+
+
+def work_on(items, function, count=DEFAULT_COUNT):
+    print('Working on', len(items), 'items')
+    with Workers(count) as workers:
+        for i in items:
+            workers.run(function, i)

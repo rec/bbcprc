@@ -1,5 +1,5 @@
 import os
-from . import constants, to_npy, worker
+from . import constants, audio_io, worker
 
 
 def write_clip(filename, seconds=1):
@@ -9,8 +9,11 @@ def write_clip(filename, seconds=1):
         return
 
     wave_file = os.path.join(constants.OUTPUT_DIR, filename)
-    frames = to_npy.read_frames(wave_file)
+    frames = audio_io.read_frames(wave_file)
+    write_one_clip(frames, filename, clip_file, seconds)
 
+
+def write_one_clip(frames, filename, clip_file, seconds=1):
     assert 0 == len(frames) % 4, 'Frame buffer not multiple of 4'
 
     frame_count = len(frames) / 4
@@ -27,7 +30,7 @@ def write_clip(filename, seconds=1):
     else:
         print('Too short!', filename, begin, end, len(frames))
 
-    to_npy.write_frames(clip_file, frames)
+    audio_io.write_frames(clip_file, frames)
     print('write_clip', filename)
 
 

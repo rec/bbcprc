@@ -1,6 +1,6 @@
 import json, os, time, wave
 import numpy as np
-from . import constants, to_npy, worker
+from . import constants, audio_io, worker
 
 PROCESS_COUNT = 2
 
@@ -8,7 +8,7 @@ PROCESS_COUNT = 2
 def write_metadata_for_one_file(filename):
     wave_file = os.path.join(constants.OUTPUT_DIR, filename)
     try:
-        samples = to_npy.read(wave_file)
+        samples = audio_io.read(wave_file)
     except Exception as e:
         metadata = {'error': [str(e)] + list(e.args)}
     else:

@@ -1,5 +1,18 @@
-import numpy as np, wave
+import contextlib, os, numpy as np, wave
 from . import constants
+
+
+@contextlib.contextmanager
+def delete_on_fail(fname, open=open, mode='w'):
+    with open(fname, mode) as fp:
+        try:
+            yield fp
+        except:
+            try:
+                os.remove(fname)
+            except:
+                pass
+            yield
 
 
 def from_frames(frames, dtype='double'):
@@ -39,7 +52,7 @@ def write(filename, samples):
 
 def write_frames(filename, frames):
     assert len(frames) % 4 == 0
-    with wave.open(filename, 'wb') as fp:
+    with delete_on_fail(filename, wave.open, 'wb') as fp:
         fp.setnchannels(2)
         fp.setsampwidth(2)
         fp.setframerate(constants.FRAME_RATE)

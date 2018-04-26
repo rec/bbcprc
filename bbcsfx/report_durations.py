@@ -1,6 +1,6 @@
 import datetime, json, os, time, wave
 import numpy as np
-from . import constants, files, to_npy
+from . import constants, files
 
 
 def to_duration(frames):
