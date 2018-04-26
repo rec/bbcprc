@@ -3,23 +3,25 @@ import multiprocessing as mp
 
 
 class Worker(mp.Process):
-    def __init__(self, queue, counter):
+    def __init__(self, queue, counter, use_logging=False):
         super().__init__()
         self.time = time.time()
         self.queue = queue
         self.counter = counter
+        self.use_logging = use_logging
 
     def run(self):
         for command, *args in iter(self.queue.get, None):
             try:
                 command(*args)
             except Exception as e:
-                name = getattr(command, 'name', str(command))
+                name = getattr(command, '__name__', str(command))
                 print('ERROR on command', name, args, e)
-                # traceback.print_exc()
+                traceback.print_exc()
             else:
                 counter = self._increment_counter()
-                self._log(command, args, counter)
+                if self.use_logging:
+                    self._log(command, args, counter)
 
     def _increment_counter(self):
         with self.counter.get_lock():

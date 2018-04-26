@@ -6,7 +6,7 @@ def get_files():
     while True:
         existing = os.listdir(constants.OUTPUT_DIR)
         existing = {i for i in existing if i.endswith('.wav')}
-        all_filenames = {i.strip() for i in open('all_filenames.txt')}
+        all_filenames = {i.strip() for i in open(constants.ALL_FILENAMES)}
         missing = list(all_filenames - existing)
         if not missing:
             break

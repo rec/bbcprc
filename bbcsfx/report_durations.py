@@ -1,6 +1,6 @@
 import datetime, json, os, time, wave
 import numpy as np
-from . import constants, to_npy
+from . import constants, files, to_npy
 
 
 def to_duration(frames):
@@ -10,26 +10,26 @@ def to_duration(frames):
 
 
 def report_durations():
-    try:
-        sizes = json.load(open(constants.DURATION_FILE))
-    except:
-        sizes = {}
+    metadata_files = list(files.with_suffix(constants.METADATA_DIR, '.json'))
 
-    print('Number of files', len(sizes))
-    frame_counts, rms = zip(*sizes.values())
+    d = {}
+    for f in metadata_files:
+        for k, v in json.load(open(f)).items():
+            d.setdefault(k, []).append(v)
 
-    average_frame_count = sum(frame_counts) / len(frame_counts)
+    print('Number of files', len(metadata_files))
+    average_frame_count = sum(d['frame_count']) / len(d['frame_count'])
     print('Average length', to_duration(average_frame_count))
-    print('Min length', to_duration(min(frame_counts)))
-    print('Max length', to_duration(max(frame_counts)))
+    print('Min length', to_duration(min(d['frame_count'])))
+    print('Max length', to_duration(max(d['frame_count'])))
 
-    average_rms = sum(rms) / len(rms)
+    average_rms = sum(d['rms']) / len(d['rms'])
     print('Average rms', average_rms)
-    print('Min rms', min(rms))
-    print('Max rms', max(rms))
-    print(*sorted(rms)[:25], sep='\n')
-    print('...')
-    print(*sorted(rms)[-25:], sep='\n')
+    print('Min rms', min(d['rms']))
+    print('Max rms', max(d['rms']))
+    print('Error count', len(d['error']))
+    errors = sorted(set(tuple(i) for i in d['error']))
+    print('Errors', errors)
 
 
 if __name__ == '__main__':

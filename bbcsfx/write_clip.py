@@ -3,6 +3,7 @@ from . import constants, to_npy, worker
 
 
 def write_clip(filename, seconds=1):
+    os.makedirs(constants.CLIP_DIR, exist_ok=True)
     clip_file = os.path.join(constants.CLIP_DIR, filename)
     if os.path.exists(clip_file):
         return
@@ -27,12 +28,14 @@ def write_clip(filename, seconds=1):
         print('Too short!', filename, begin, end, len(frames))
 
     to_npy.write_frames(clip_file, frames)
+    print('write_clip', filename)
 
 
 def write_all_clips():
     with worker.Workers(2) as workers:
         files = sorted(os.listdir(constants.OUTPUT_DIR))
-        # files = files[3000:3000 + 16]
+        N, D = 0, 4
+        files = files[N:N + D]
         for filename in files:
             workers.run(write_clip, filename)
 
