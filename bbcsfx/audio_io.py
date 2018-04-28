@@ -1,23 +1,13 @@
-import contextlib, os, numpy as np, wave
-from . import constants
+import os, numpy as np, wave
+from . import constants, files
 
 
-@contextlib.contextmanager
-def delete_on_fail(fname, open=open, mode='w'):
-    with open(fname, mode) as fp:
-        try:
-            yield fp
-        except:
-            try:
-                os.remove(fname)
-            except:
-                pass
-            yield
-
-
-def from_frames(frames, dtype='double'):
+def from_frames(frames, nchannels=2, dtype='double'):
+    extra = len(frames) % (nchannels * 2)
+    if extra:
+        frames = frames[:-extra]
     vector = np.frombuffer(frames, dtype='int16')
-    samples = vector.reshape((-1, 2))
+    samples = vector.reshape((-1, nchannels))
     return samples.astype(dtype)
 
 
@@ -33,16 +23,26 @@ def to_frames(samples):
 
 
 def read_frames(filename):
+    fp, frames = read_frames_and_fp(filename)
+
+    if fp.getnchannels() > 2:
+        raise ValueError('fp.getnchannels() > 2')
+    if fp.getframerate() != constants.FRAME_RATE:
+        raise ValueError('fp.getframerate() != constants.FRAME_RATE: %s'
+                         % fp.getframerate())
+    return frames, fp.getnchannels()
+
+
+def read_frames_and_fp(filename):
     with wave.open(filename) as fp:
-        assert fp.getnchannels() == 2
-        assert fp.getsampwidth() == 2
-        assert fp.getframerate() == constants.FRAME_RATE
-        return fp.readframes(fp.getnframes())
+        if fp.getsampwidth() != 2:
+            raise ValueError('fp.getsampwidth() != 2')
+        return fp, fp.readframes(fp.getnframes())
 
 
 def read(filename, dtype='double'):
-    frames = read_frames(filename)
-    return from_frames(frames, dtype)
+    frames, nchannels = read_frames(filename)
+    return from_frames(frames, nchannels, dtype)
 
 
 def write(filename, samples):
@@ -52,7 +52,7 @@ def write(filename, samples):
 
 def write_frames(filename, frames):
     assert len(frames) % 4 == 0
-    with delete_on_fail(filename, wave.open, 'wb') as fp:
+    with files.delete_on_fail(filename, wave.open, 'wb') as fp:
         fp.setnchannels(2)
         fp.setsampwidth(2)
         fp.setframerate(constants.FRAME_RATE)

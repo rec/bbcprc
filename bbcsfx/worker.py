@@ -1,11 +1,12 @@
-import time, traceback
+import os, time, traceback
 import multiprocessing as mp
+from . import files
 
 DEFAULT_COUNT = 4
 
 
 class Worker(mp.Process):
-    def __init__(self, queue, counter, use_logging=True):
+    def __init__(self, queue, counter, use_logging=not True):
         super().__init__()
         self.time = time.time()
         self.queue = queue
@@ -58,8 +59,12 @@ class Workers:
         self.queue.put(args)
 
 
-def work_on(items, function, count=DEFAULT_COUNT):
+def work_on(function, items, count=DEFAULT_COUNT):
     print('Working on', len(items), 'items')
     with Workers(count) as workers:
         for i in items:
             workers.run(function, i)
+
+
+def work_on_files(function, root, count=DEFAULT_COUNT):
+    work_on(function, sorted(os.listdir(root)), count)
