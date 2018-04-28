@@ -1,6 +1,8 @@
 import itertools, os, random, subprocess, sys, time, traceback
 from . import constants
 
+MINIMUM_SIZE = 100000
+
 
 def get_waves_in_directory(root):
     return {f for f in os.listdir(root) if f.endswith('.wav')}
@@ -19,26 +21,38 @@ def download(missing):
         return True
 
     filename = random.choice(list(missing))
+    print('Downloading', filename, '-', len(missing) - 1, 'to go')
+    download_one(filename)
+
+
+def download_one(filename):
     url = '%s/%s' % (constants.URL_ROOT, filename)
     outfile = '%s/%s' % (constants.SOURCE_DIR, filename)
-    print('Downloading', filename, '-', len(missing) - 1, 'to go')
     cmd = ('curl', '-o', outfile, url)
+
+    def remove():
+        try:
+            os.remove(outfile)
+        except:
+            pass
 
     try:
         subprocess.check_output(cmd)
-        print('\n', filename, '*** Downloaded')
+        if os.stat(outfile).st_size < MINIMUM_SIZE:
+            print('ERROR:', filename, 'removed as too small')
+
+            remove()
+        else:
+            print(filename, 'downloaded')
+
+
     except KeyboardInterrupt:
-        try:
-            os.remove(outfile)
-        except:
-            pass
+        remove()
         raise
+
     except:
         traceback.print_exc()
-        try:
-            os.remove(outfile)
-        except:
-            pass
+        remove()
 
 
 def get_missing_sources():

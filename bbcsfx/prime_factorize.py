@@ -8,7 +8,7 @@ def prime_factorize(n):
     while number > 1:
         factor = get_next_prime_factor(number, factor)
         factors.append(factor)
-        number /= factor
+        number //= factor
 
     if n < -1:  # If we'd check for < 0, -1 would give us trouble
         factors[0] = -factors[0]
@@ -29,4 +29,10 @@ def get_next_prime_factor(n, f):
 
     return n
 
-print(prime_factorize(75934860815))
+def run():
+    N = 76358303439
+    for i in range(10):
+        print(N, prime_factorize(N + i))
+
+
+run()

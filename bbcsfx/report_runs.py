@@ -1,5 +1,5 @@
 import os
-from . import constants
+from . import constants, download
 
 
 def to_runs(files):
@@ -22,12 +22,8 @@ def to_runs(files):
 
 
 def report_runs():
-    def to_number(filename):
-        return int(filename.split('.')[0].lstrip('0'))
-
-    files = (f for f in os.listdir(constants.SOURCE_DIR) if f.endswith('.wav'))
     previous = ''
-    for run in to_runs(sorted(to_number(f) for f in files)):
+    for run in get_source_runs():
         gap = previous and ('(%s)' % (run[0] - previous - 1))
         previous = run[-1]
         if len(run) == 1:
@@ -36,5 +32,31 @@ def report_runs():
             print(run[0], '-', previous, gap)
 
 
+def to_index(filename):
+    # Filenames look like 00008000.wav
+    return int(filename.split('.')[0].lstrip('0'))
+
+
+def to_filename(index):
+    return '%08d.wav' % index
+
+
+def get_source_runs():
+    files = os.listdir(constants.SOURCE_DIR)
+    files = [to_index(f) for f in files if f.endswith('.wav')]
+    files.sort()
+    return to_runs(files)
+
+
+def get_edge_files():
+    indexes = set()
+    for run in get_source_runs():
+        indexes.add(run[0] - 1)
+        indexes.add(run[-1] + 1)
+
+    return [to_filename(i) for i in sorted(indexes)]
+
+
 if __name__ == '__main__':
-    report_runs()
+    for f in get_edge_files():
+        download.download_one(f)
