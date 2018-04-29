@@ -3,7 +3,7 @@ from . import files
 
 TIMEOUT = 2
 
-ROOT_DIR = '/Volumes/Bach/disks/bbcsfx'
+ROOT_DIR = '/Volumes/Bach/disks/bbcprc'
 SOURCE_DIR = os.path.join(ROOT_DIR, 'source')
 METADATA_DIR = os.path.join(ROOT_DIR, 'metadata')
 CLIP_DIR = os.path.join(ROOT_DIR, 'clips')
