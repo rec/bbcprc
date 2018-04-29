@@ -8,13 +8,14 @@ def with_suffix(root, suffix=None):
 
 
 @contextlib.contextmanager
-def delete_on_fail(fname, open=open, mode='w'):
+def delete_on_fail(fname, mode='wb', open=open, delete=True):
     with open(fname, mode) as fp:
         try:
             yield fp
         except:
-            try:
-                os.remove(fname)
-            except:
-                pass
-            yield
+            if delete:
+                try:
+                    os.remove(fname)
+                except:
+                    pass
+            raise

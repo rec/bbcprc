@@ -52,7 +52,7 @@ def write(filename, samples):
 
 def write_frames(filename, frames):
     assert len(frames) % 4 == 0
-    with files.delete_on_fail(filename, wave.open, 'wb') as fp:
+    with files.delete_on_fail(filename, open=wave.open) as fp:
         fp.setnchannels(2)
         fp.setsampwidth(2)
         fp.setframerate(constants.FRAME_RATE)

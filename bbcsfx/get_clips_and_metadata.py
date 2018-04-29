@@ -60,7 +60,7 @@ def metadata_and_clip(filename):
     if not filename.endswith('.wav'):
         return
 
-    source_file, metadata_file, clip_file = constants.files(filename)
+    source_file, metadata_file, clip_file = constants.all_files(filename)
     metadata_exists = os.path.exists(metadata_file)
     clip_exists = os.path.exists(clip_file)
 

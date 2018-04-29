@@ -1,0 +1,10 @@
+Total number of files 16014
+Error count 0
+Successful files 16014
+Total length 20 days, 0:58:00.803605 76358303439
+Average length 0:01:48.122943 4768221.770887973
+Min length 0:00:01.573333 69384
+Max length 0:26:49.400000 70974540
+Average rms 3029.782418405867
+Min rms 63.48201883802484
+Max rms 22215.433447020263

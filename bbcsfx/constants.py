@@ -1,4 +1,5 @@
 import os
+from . import files
 
 TIMEOUT = 2
 
@@ -29,5 +30,22 @@ def clip(fname):
     return os.path.join(CLIP_DIR, fname)
 
 
-def files(fname):
+def shard(project_name, index, level=0):
+    basename = '%d-%d.npy' % (index, level)
+    return os.path.join(ROOT_DIR, project_name, 'shards', basename)
+
+
+def all_files(fname):
     return source(fname), metadata(fname), clip(fname)
+
+
+def metadata_files():
+    return sorted(files.with_suffix(METADATA_DIR, '.json'))
+
+
+def source_files():
+    return sorted(files.with_suffix(SOURCE_DIR, '.wav'))
+
+
+def clip_files():
+    return sorted(files.with_suffix(CLIP_DIR, '.wav'))

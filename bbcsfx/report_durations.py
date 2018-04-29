@@ -6,11 +6,11 @@ from . import constants, files
 def to_duration(frames):
     seconds = frames / constants.FRAME_RATE
     duration = datetime.timedelta(seconds=seconds)
-    return str(duration)
+    return str(duration), frames
 
 
 def report_durations():
-    metadata_files = list(files.with_suffix(constants.METADATA_DIR, '.json'))
+    metadata_files = constants.metadata_files()
 
     frame_counts, rms, errors = [], [], {}
     for f in metadata_files:
@@ -29,17 +29,16 @@ def report_durations():
 
     total_length = sum(frame_counts)
     average_frame_count = total_length / len(frame_counts)
-    print('Total length', to_duration(total_length), total_length)
-    print('Average length', to_duration(average_frame_count))
-    print('Min length', to_duration(min(frame_counts)))
-    print('Max length', to_duration(max(frame_counts)))
+    print('Total length', *to_duration(total_length))
+    print('Average length', *to_duration(average_frame_count))
+    print('Min length', *to_duration(min(frame_counts)))
+    print('Max length', *to_duration(max(frame_counts)))
 
     average_rms = sum(rms) / len(rms)
     print('Average rms', average_rms)
     print('Min rms', min(rms))
     print('Max rms', max(rms))
 
-    print(errors)
     for error, source_files in sorted(errors.items()):
         print(error)
         for f in source_files:
