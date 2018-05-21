@@ -12,15 +12,21 @@ def to_duration(frames):
 def report_durations():
     metadata_files = constants.metadata_files()
 
-    frame_counts, rms, errors = [], [], {}
+    frame_counts, rms, errors, everything = [], [], {}, {}
+    files_to_frame_count = {}
+
     for f in metadata_files:
         metadata = json.load(open(f))
+        everything[os.path.basename(f)] = metadata
+
         if not metadata:
             print('Empty file', f)
         elif 'error' in metadata:
             errors.setdefault(str(metadata['error']), []).append(f)
         else:
-            frame_counts.append(metadata['frame_count'])
+            frame_count = metadata['frame_count']
+            files_to_frame_count[f] = frame_count
+            frame_counts.append(frame_count)
             rms.append(metadata['rms'])
 
     print('Total number of files', len(metadata_files))
@@ -43,6 +49,23 @@ def report_durations():
         print(error)
         for f in source_files:
             print('  ', f)
+
+    by_frame = sorted((v, k) for k, v in files_to_frame_count.items())
+
+    N = 50
+
+    if False:
+        for frames in by_frame[:N], by_frame[-N:]:
+            for count, file in frames:
+                print(os.path.basename(file)[:-5], *to_duration(count))
+
+            print()
+            print('...')
+            print()
+        return
+
+    for i, (count, file) in enumerate(by_frame):
+        print('%05d' % i, os.path.basename(file)[:-5], *to_duration(count))
 
 
 if __name__ == '__main__':
