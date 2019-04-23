@@ -1,6 +1,7 @@
 from .. import audio_io, constants, files
-import json, numpy as np, os, random, shutil
+import json, numpy as np, os
 
+# A Score maps the names of a precis to the length of that precis.
 SCORE = {
     'min': 69384,
     'mean': 4768222,
@@ -10,10 +11,41 @@ SCORE = {
 DELETE_ON_FAILURE = not False
 
 
-def make_precis(shard, score):
-    def zeros(length):
-        return np.zeros(shape=(length, 2), dtype='double')
+def zeros(length):
+    return np.zeros(shape=(length, 2), dtype='double')
 
+
+def mix_source_cyclically_into_output(source, out, begin):
+    """
+    The source is mixed one or more times cyclically over the output.
+
+    begin is the time start of the source within the entire piece.
+    """
+
+    source_index = 0              # The sample index in the source
+    out_index = begin % len(out)  # The sample index in the output
+
+    # We advance these two indices through the source and output in parallel.
+    while True:
+        # How many more samples are there in the source and output?
+        source_remains = len(source) - source_index
+        out_remains = len(out) - out_index
+
+        if out_remains >= source_remains:
+            # There is more space remaining in the output than there is source.
+            # Copy all the remaining source to out, and we're done.
+            out[out_index:out_index + source_remains] += source[source_index:]
+            return
+
+        # Copy only part of the remaining source to out, and loop.
+        out[out_index:] += source[source_index:source_index + out_remains]
+        source_index += out_remains
+
+        # Each segment after the first starts writing at 0 in the output buffer.
+        out_index = 0
+
+
+def make_precis(shard, score):
     outputs = {k: zeros(v) for k, v in score.items()}
     for file, (begin, end, rbegin, rend) in shard:
         source = audio_io.read(constants.source(file))
@@ -21,27 +53,7 @@ def make_precis(shard, score):
             raise ValueError('Wrong length %s' % [end, begin, len(source)])
 
         for out in outputs.values():
-            # The source is printed one or more times cyclically over the
-            # output, starting at location "begin".
-            i_source = 0
-            i_out = begin % len(out)
-
-            while True:
-                source_remains = len(source) - i_source
-                out_remains = len(out) - i_out
-
-                if out_remains >= source_remains:
-                    # Copy all the remaining source to out, and we're done.
-                    segment = source[i_source:] if i_source else source
-                    out[i_out:i_out + source_remains] += segment
-                    break
-
-                # Copy only part of the remaining source to out.
-                out[i_out:] += source[i_source:i_source + out_remains]
-                i_source += out_remains
-
-                # Each segment after the first starts at 0 in the output.
-                i_out = 0
+            mix_source_cyclically_into_output(source, out, begin)
 
     return outputs
 

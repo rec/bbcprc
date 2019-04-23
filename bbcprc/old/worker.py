@@ -6,7 +6,7 @@ DEFAULT_COUNT = 4
 
 
 class Worker(mp.Process):
-    def __init__(self, queue, counter, use_logging=not True):
+    def __init__(self, queue, counter, use_logging=False):
         super().__init__()
         self.time = time.time()
         self.queue = queue
