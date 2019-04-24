@@ -1,6 +1,7 @@
 from collections import Counter
 from pathlib import Path
-import statistics, yaml
+import statistics, sys, yaml
+from . import constants
 
 CENSUS_FILE = 'results/census.yml'
 
@@ -10,32 +11,35 @@ def report():
 
     # How many files are there - 1 and 2?
     file_counter = Counter()
-    file_frames = Counter()
+    file_seconds = Counter()
+    frame_counter = Counter()
 
     for r in yaml.safe_load_all(open(CENSUS_FILE)):
         filename = Path(r['filename']).stem
-        frames, channels = r['nframes'], r['nchannels']
-        files[filename] = frames
+        frames = r['nframes']
+        frame_counter[frames] += 1
+        seconds = frames / constants.FRAMERATE
+        channels = r['nchannels']
+        files[filename] = seconds
         file_counter[channels] += 1
-        file_frames[channels] += frames
+        file_seconds[channels] += seconds
 
-    # Longest and shortest files?
-    shortest = min(files.items(), key=lambda x: x[1])
-    longest = max(files.items(), key=lambda x: x[1])
-    mean = statistics.mean(files.values())
-    median = statistics.median(files.values())
-    mode = statistics.mode(files.values())
-    variance = statistics.pvariance(files.values())
-    print(f"""
-file_counter = {file_counter}
-file_frames = {file_frames}
-shortest = {shortest}
-longest = {longest}
-mean = {mean}
-median = {median}
-mode = {mode}
-variance = {variance}
-    """)
+    count_counter = {}
+    for frames, count in frame_counter.items():
+        count_counter.setdefault(count, []).append(frames)
+
+    return {
+        'shortest': list(min(files.items(), key=lambda x: x[1])),
+        'longest': list(max(files.items(), key=lambda x: x[1])),
+        'mean': statistics.mean(files.values()),
+        'median': statistics.median(files.values()),
+        'mode': statistics.mode(files.values()),
+        'stdev': statistics.pstdev(files.values()),
+        'file_counter': dict(file_counter),
+        'count_counter': count_counter,
+        'frame_counter': dict(frame_counter),
+    }
+
 
 if __name__ == '__main__':
-    report()
+    yaml.dump(report(), sys.stdout)
