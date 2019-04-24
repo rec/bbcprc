@@ -1,4 +1,4 @@
-import contextlib, os, wave
+import contextlib, os, sys, wave
 from pathlib import Path
 
 FRAME_RATE = 44100
@@ -10,8 +10,8 @@ def error(*args):
     print('ERROR:', *args, file=sys.stderr)
 
 
-def wave_files(d):
-    return sorted(f for f in Path(directory).iterdir() if f.suffix == 'wav')
+def wave_files(directory):
+    return sorted(f for f in Path(directory).iterdir() if f.suffix == '.wav')
 
 
 def read_frames(filename):

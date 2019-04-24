@@ -1,0 +1,8 @@
+file_counter = Counter({2: 15785, 1: 229})
+file_frames = Counter({2: 75829977470, 1: 692502620})
+shortest = ('07042079', 69384)
+longest = ('07055254', 70974540)
+mean = 4778473.841014112
+median = 2647652.0
+mode = 176400
+variance = 25421517093977.793

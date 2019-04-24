@@ -1,12 +1,16 @@
-import sys, wave, yaml
+import sys, traceback, wave, yaml
+from . import constants, files
 
-from . import files
+PARAMS = 'nchannels', 'nframes'
+EXPECTED = {
+    'comptype': 'NONE',
+    'compname': 'not compressed',
+    'framerate': 44100,
+    'sampwidth': 2,
+}
 
-PARAMS = 'nchannels', 'sampwidth', 'framerate', 'nframes'
-EXPECTED = {'comptype': 'NONE', 'compname': 'not compressed'}
 
-
-def census(directory):
+def census(directory=constants.ROOT):
     def report(filename):
         with wave.open(filename) as fp:
             p = fp.getparams()
@@ -14,12 +18,12 @@ def census(directory):
                 new_v = getattr(p, k)
                 if new_v != v:
                     files.error('Unexpected param value', k, new_v, filename)
-            return {i: getattr(p, i) for i in PARAMS}
+            return dict({i: getattr(p, i) for i in PARAMS}, filename=filename)
 
     def reports():
         for filename in files.wave_files(directory):
             try:
-                yield report(filename)
+                yield report(str(filename))
             except:
                 files.error('Exception on file', filename)
                 traceback.print_exc(file=sys.stderr)
@@ -28,4 +32,4 @@ def census(directory):
 
 
 if __name__ == '__main__':
-    census(sys.argv[1])
+    census(*sys.argv[1:])
