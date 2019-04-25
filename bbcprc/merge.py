@@ -6,7 +6,7 @@ offset for each one.
 import sys, yaml
 from pathlib import Path
 from . files import read_frames, wave_writer
-STOP_AFTER = 10
+STOP_AFTER = 0
 
 
 def merge(outfile, files=None):
@@ -15,7 +15,7 @@ def merge(outfile, files=None):
 
     def records(out):
         for f in files:
-            yield Path(f).name, out.tell()
+            yield f, out.tell()
             frames, channels = read_frames(f)
             if channels == 1:
                 frames = bytes(mono_to_stereo(frames))
@@ -43,6 +43,13 @@ def sorted_files():
 
 
 if __name__ == '__main__':
-    out, *files = sys.argv[1:]
-    assert files, 'No files'
-    merge(out, files)
+    if True:
+        merge(sys.argv[1])
+
+    elif True:
+        for i in sorted_files():
+            print(i)
+    else:
+        out, *files = sys.argv[1:]
+        assert files, 'No files'
+        merge(out, files)
