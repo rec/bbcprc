@@ -1,7 +1,7 @@
 import contextlib, os, sys, wave
 from pathlib import Path
 
-FRAME_RATE = 44100
+FRAMERATE = 44100
 NCHANNELS = 2
 SAMPWIDTH = 2
 
@@ -16,14 +16,14 @@ def wave_files(directory):
 
 def read_frames(filename):
     with wave.open(filename) as fp:
-        return fp.readframes(fp.getnframes())
+        return fp.readframes(fp.getnframes()), fp.getnchannels()
 
 
 @contextlib.contextmanager
 def wave_writer(filename, nframes=0, delete_on_fail=False):
     with open(filename, 'wb') as fp:
         # If you use wave.open directly, it isn't seekable!
-        with wave.open(fp):
+        with wave.open(fp) as out:
             out.setframerate(FRAMERATE)
             out.setsampwidth(SAMPWIDTH)
             out.setnchannels(NCHANNELS)
