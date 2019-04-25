@@ -6,13 +6,11 @@ offset for each one.
 import sys, yaml
 from pathlib import Path
 from . files import read_frames, wave_writer
-STOP_AFTER = 0
+from . import constants
+STOP_AFTER = 5
 
 
-def merge(outfile, files=None):
-    if files is None:
-        files = sorted_files()
-
+def merge(outfile, files, index_out=sys.stdout):
     def records(out):
         for f in files:
             yield f, out.tell()
@@ -23,7 +21,7 @@ def merge(outfile, files=None):
         yield '(END)', out.tell()
 
     with wave_writer(outfile) as out:
-        yaml.safe_dump_all(records(out), sys.stdout)
+        yaml.safe_dump_all(records(out), index_out)
 
 
 def mono_to_stereo(frames):
@@ -42,14 +40,10 @@ def sorted_files():
         yield filename
 
 
-if __name__ == '__main__':
-    if True:
-        merge(sys.argv[1])
+def master_merge():
+    with open(constants.CORPUS_INDEX, 'w') as fp:
+        merge(constants.CORPUS, sorted_files(), fp)
 
-    elif True:
-        for i in sorted_files():
-            print(i)
-    else:
-        out, *files = sys.argv[1:]
-        assert files, 'No files'
-        merge(out, files)
+
+if __name__ == '__main__':
+    master_merge()
