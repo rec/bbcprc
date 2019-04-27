@@ -1,4 +1,4 @@
-import contextlib, os, sys, wave
+import contextlib, numpy as np, os, sys
 from pathlib import Path
 
 FRAMERATE = 44100
