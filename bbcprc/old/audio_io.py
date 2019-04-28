@@ -1,4 +1,4 @@
-import os, numpy as np, wave
+import numpy as np, wave
 from . import constants, files
 
 

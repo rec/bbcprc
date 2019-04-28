@@ -3,7 +3,7 @@ Merges many .WAV files into one great big one and keeps track of the sample
 offset for each one.
 """
 
-import numpy as np, sys, yaml
+import sys, yaml
 from pathlib import Path
 from . elapsed_bar import ElapsedBar
 from . files import read_frames, wave_writer
@@ -47,10 +47,6 @@ def merge_to_binary():
         merge(constants.CORPUS, sorted_files(), fp)
 
 
-def mmap_wave_file(filename):
-    mf = np.memmap(filename, mode='r', shape=(2, None), offset=WAVE_OFFSET)
-
-
-# constants.CORPUS,
 if __name__ == '__main__':
-    master_merge()
+    pass
+    # master_merge()

@@ -14,23 +14,24 @@ TOTAL_FRAMES = 76522480090
 
 
 def merge_to_mmap(mmap, files, total_frames):
-    writer =  open_memmap(filename, mode='w+', dtype=dtype, shape=(nframes, 2))
+    shape = total_frames, 2
+    writer = open_memmap(mmap, mode='w+', dtype='int16', shape=shape)
     bar = ElapsedBar(max=len(files))
-    elapsed_samples = 0
+    frames = 0
 
     for f in files:
-        yield f, out.tell()
+        yield f, frames
         bar.next_item(Path(f).name)
         reader = wave_to_numpy.reader(f)
         nsamples, nchannels = reader.shape
         if nchannels == 1:
-            reader = numpy.repeat(reader, 2, axis=1)
+            reader = np.repeat(reader, 2, axis=1)
         elif nchannels != 2:
             raise ValueError
-        writer[elapsed_samples:elapsed_samples + nsamples] = reader
-        total += nsamples
+        writer[frames:frames + nsamples] = reader
+        frames += nsamples
 
-    yield '(END)', out.tell()
+    yield '(END)', frames
     bar.finish()
 
 

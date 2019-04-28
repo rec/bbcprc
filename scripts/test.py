@@ -3,11 +3,7 @@ Merges many .WAV files into one great big one and keeps track of the sample
 offset for each one.
 """
 
-import numpy as np, sys, wave, yaml
-from pathlib import Path
-from . files import read_frames, wave_writer
-from . import constants, merge
-STOP_AFTER = 5
+import wave
 
 FILE = '/Volumes/bbcbbc/bbcprc/source/00008000.wav'
 

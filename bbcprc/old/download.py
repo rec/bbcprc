@@ -1,4 +1,4 @@
-import itertools, os, random, subprocess, sys, time, traceback
+import os, random, subprocess, time, traceback
 from . import constants
 
 MINIMUM_SIZE = 100000
@@ -44,7 +44,6 @@ def download_one(filename):
             remove()
         else:
             print(filename, 'downloaded')
-
 
     except KeyboardInterrupt:
         remove()

@@ -61,7 +61,7 @@ def metadata_and_clip(filename):
         return
 
     source_file, metadata_file, clip_file = constants.all_files(filename)
-    metadata_exists = os.path.exists(metadata_file)
+    # metadata_exists = os.path.exists(metadata_file)
     clip_exists = os.path.exists(clip_file)
 
     if metadata_file and clip_exists:

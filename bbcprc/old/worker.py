@@ -1,6 +1,5 @@
 import os, time, traceback
 import multiprocessing as mp
-from . import files
 
 DEFAULT_COUNT = 4
 

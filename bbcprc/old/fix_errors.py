@@ -1,5 +1,5 @@
-import json, numpy as np, os
-from . import audio_io, constants, get_clips_and_metadata, worker
+import json
+from . import constants, get_clips_and_metadata, worker
 
 SUFFIX = '.json'
 

@@ -17,6 +17,5 @@ def run():
     print(log_sum, lines, log_sum / lines)
 
 
-
 if __name__ == '__main__':
     run()

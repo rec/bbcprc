@@ -11,7 +11,7 @@ def to_runs(files):
             new_list[k].append(file)
             for j in range(i + 1, len(files)):
                 if files[j] - file == j - i and files[j] not in new_list[k]:
-                   new_list[k].append(files[j])
+                    new_list[k].append(files[j])
             k += 1
             new_list.append([])
 

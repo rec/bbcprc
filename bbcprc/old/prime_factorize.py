@@ -1,5 +1,6 @@
 import math
 
+
 def prime_factorize(n):
     factors = []
     number = abs(n)
@@ -28,6 +29,7 @@ def get_next_prime_factor(n, f):
             return x
 
     return n
+
 
 def run():
     N = 76358303439

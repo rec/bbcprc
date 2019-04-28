@@ -1,4 +1,5 @@
-from .. import audio_io, constants, files
+from .. import constants, files
+from .. old import audio_io
 import json, numpy as np, os
 
 # A Score maps the names of a precis to the length of that precis.
@@ -41,7 +42,7 @@ def mix_source_cyclically_into_output(source, out, begin):
         out[out_index:] += source[source_index:source_index + out_remains]
         source_index += out_remains
 
-        # Each segment after the first starts writing at 0 in the output buffer.
+        # Each segment after the first starts writing at 0 in the output buffer
         out_index = 0
 
 
