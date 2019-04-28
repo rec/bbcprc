@@ -43,7 +43,7 @@ def sorted_files():
 
 def merge():
     results = merge_to_mmap(constants.CORPUS, sorted_files(), TOTAL_FRAMES)
-    with open(constants.CORPUS_INDEX, 'w') as out):
+    with open(constants.CORPUS_INDEX, 'w') as out:
         yaml.safe_dump_all(results, out)
 
 

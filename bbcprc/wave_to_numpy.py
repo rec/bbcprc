@@ -24,8 +24,11 @@ def reader(filename):
 
 def writer(filename, nframes, dtype='int16', **params):
     with wave.open(filename, mode='wb') as fp:
-        wp = wave._wave_params(**dict(PARAMS, nframes=nframes, **params))
+        params = dict(PARAMS, nframes=nframes, **params)
+        max_size = 0x100000000 / params['nchannels'] / params['sampwidth']
+        params['nframes'] = min(params['nframes'], int(max_size) - 1)
+        wp = wave._wave_params(**params)
         fp.setparams(wp)
-        shape = _get_shape(fp.getparams())
+        shape = _get_shape(wp)
 
     return np.memmap(filename, dtype=dtype, offset=OFFSET, shape=shape)
