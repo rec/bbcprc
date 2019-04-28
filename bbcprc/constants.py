@@ -1,5 +1,3 @@
-
-
 CORPUS = '/data/bbcprc/data/corpus.npy'
 INDEX = '/data/bbcprc/data/index.npy'
 
