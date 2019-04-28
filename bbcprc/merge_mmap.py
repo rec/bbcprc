@@ -7,13 +7,14 @@ import numpy as np, yaml
 from pathlib import Path
 from . elapsed_bar import ElapsedBar
 from . import constants, wave_to_numpy
+from numpy.lib.format import open_memmap
 
 STOP_AFTER = None or 5
 TOTAL_FRAMES = 76522480090
 
 
 def merge_to_mmap(mmap, files, total_frames):
-    writer = wave_to_numpy.writer(mmap, total_frames)
+    writer =  open_memmap(filename, mode='w+', dtype=dtype, shape=(nframes, 2))
     bar = ElapsedBar(max=len(files))
     elapsed_samples = 0
 

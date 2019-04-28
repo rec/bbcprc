@@ -10,10 +10,6 @@ PARAMS = {'nchannels': 2,
           'compname': 'not compressed'}
 
 
-def _get_shape(p):
-    return p.nframes, p.nchannels * (3 if p.sampwidth == 3 else 1)
-
-
 def reader(filename):
     with wave.open(filename) as fp:
         params = fp.getparams()
