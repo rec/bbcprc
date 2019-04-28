@@ -1,4 +1,5 @@
 import datetime
+from pathlib import Path
 from progress.bar import ChargingBar
 
 
@@ -26,3 +27,11 @@ class ElapsedBar(ChargingBar):
             message, fmt(elapsed), fmt(remaining))
 
         self.next()
+
+
+def elapsed_iterator(items, *args, **kwds):
+    bar = ElapsedBar(max=len(items), *args, **kwds)
+    for f in items:
+        bar.next_item(Path(f).name)
+        yield f
+    bar.finish()
