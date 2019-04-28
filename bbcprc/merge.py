@@ -6,16 +6,14 @@ offset for each one.
 import numpy as np, yaml
 from . elapsed_bar import elapsed_iterator
 from . import constants, wave_to_numpy
-from numpy.lib.format import open_memmap
 
-STOP_AFTER = None or 5
+STOP_AFTER = None
 TOTAL_FRAMES = 76522480090
-RESULTS_FILE = 'results/census.yml'
 END = '(END)'
 
 
 def merge(mmap, nframes, files, index_file):
-    writer = open_memmap(mmap, mode='w+', dtype='int16', shape=(nframes, 2))
+    writer = wave_to_numpy.memmap(mmap, nframes, 'w+')
 
     def offsets():
         frames = 0
@@ -39,7 +37,7 @@ def merge(mmap, nframes, files, index_file):
     return writer
 
 
-def sorted_files(filename=RESULTS_FILE):
+def sorted_files(filename=constants.RESULTS_FILE):
     def g():
         for i, f in enumerate(yaml.safe_load_all(open(filename))):
             yield f['nframes'], f['filename']

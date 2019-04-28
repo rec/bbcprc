@@ -10,7 +10,7 @@ EXPECTED = {
 }
 
 
-def census(directory=constants.ROOT):
+def census(directory=constants.SOURCE):
     def report(filename):
         with wave.open(filename) as fp:
             p = fp.getparams()

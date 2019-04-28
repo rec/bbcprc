@@ -1,4 +1,5 @@
 import wave, numpy as np
+from numpy.lib.format import open_memmap
 
 DTYPES = {1: 'int8', 2: 'int16', 3: 'int8', 4: 'int32'}
 OFFSET = 44
@@ -32,3 +33,8 @@ def writer(filename, nframes, dtype='int16', **params):
         shape = _shape(fp.getparams())
 
     return np.memmap(filename, dtype=dtype, offset=OFFSET, shape=shape)
+
+
+def memmap(filename, nframes=0, mode='r+', dtype='int16', shape=None):
+    shape = shape or (nframes, 2)
+    return open_memmap(filename, mode=mode, dtype=dtype, shape=shape)
