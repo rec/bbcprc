@@ -1,4 +1,4 @@
-import os, tempfile, unittest, yaml
+import os, tempfile, unittest
 import numpy.testing
 from bbcprc import files, merge
 
@@ -20,7 +20,7 @@ class MergeTest(unittest.TestCase):
                 fp.writeframes(bytes(range(32, 72, 2)))
                 self.assertEqual(fp.getnframes(), 5)
 
-            writer = merge.merge(MMAP, 8, (F1, F2), INDEX)
+            writer = merge.merge(MMAP, 8, (F1, F2), [3, 8])
             expected = [
                 [0x100, 0x100], [0x302, 0x302], [0x504, 0x504],
 
@@ -28,7 +28,3 @@ class MergeTest(unittest.TestCase):
                 [0x3a38, 0x3e3c], [0x4240, 0x4644]]
 
             numpy.testing.assert_array_equal(expected, writer)
-
-            actual = list(yaml.safe_load_all(open(INDEX)))
-            expected = [['f1.wav', 0], ['f2.wav', 3], ['(END)', 8]]
-            self.assertEqual(actual, expected)

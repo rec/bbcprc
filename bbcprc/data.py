@@ -1,10 +1,7 @@
 import yaml
-from pathlib import Path
 from . import constants
 from . lazy_property import lazy_property
 from numpy.lib.format import open_memmap
-
-FILENAMES_FILE = Path(__file__).parents[1] / 'results/filenames.yml'
 
 
 class _Data:
@@ -17,14 +14,27 @@ class _Data:
         return open_memmap(constants.INDEX, mode='r')
 
     @lazy_property
-    def names(self):
-        with FILENAMES_FILE.open() as fp:
+    def filenames(self):
+        with open(constants.FILENAMES) as fp:
             return yaml.safe_load(fp)
 
-    def samples_at(self, i):
-        begin = self.index[i - 1] if i else 0
-        end = self.index[i]
-        return self.corpus[begin:end]
+    @lazy_property
+    def samples(self):
+        data = self
+
+        class Samples:
+            def __getitem__(self, i):
+                begin = data.index[i - 1] if i else 0
+                end = data.index[i]
+                return data.corpus[begin:end]
+
+            def __len__(self):
+                return
+
+            def __iter__(self):
+                return (self[i] for i in range(len(data.index)))
+
+        return Samples()
 
 
 Data = _Data()
