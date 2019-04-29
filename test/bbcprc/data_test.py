@@ -17,7 +17,7 @@ class DataTest(unittest.TestCase):
             frame = fp.readframes(1)
             if fp.getnchannels() == 1:
                 frame += frame
-            self.assertEqual(frame, bytes([llo, lhi, rlo, rhi]))
+            self.assertEqual(list(frame), [llo, lhi, rlo, rhi])
 
     @skip_tests.no_source
     @skip_tests.no_corpus

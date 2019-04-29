@@ -19,7 +19,7 @@ class _Data:
     @lazy_property
     def names(self):
         with FILENAMES_FILE.open() as fp:
-            return yaml.load(fp)
+            return yaml.safe_load(fp)
 
     def samples_at(self, i):
         begin = self.index[i - 1] if i else 0
