@@ -1,15 +1,11 @@
-import yaml
+import itertools, yaml
 from . import constants, wave_to_numpy
 
 
 def read():
-    with open(constants.CORPUS_INDEX) as fp:
-        return [i[1] for i in yaml.safe_load_all(fp)]
-
-
-def write(data):
-    with open(constants.SIMPLE_INDEX, 'w') as fp:
-        yaml.dump(data, fp)
+    with open(constants.CENSUS_RESULTS_FILE) as fp:
+        items = [i['nframes'] for i in yaml.safe_load_all(fp)]
+        return list(itertools.accumulate(sorted(items)))
 
 
 def write_numpy(data):

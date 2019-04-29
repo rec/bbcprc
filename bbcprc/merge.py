@@ -7,7 +7,6 @@ import numpy as np, yaml
 from . elapsed_bar import elapsed_iterator
 from . import constants, wave_to_numpy
 
-STOP_AFTER = None
 TOTAL_FRAMES = 76522480090
 END = '(END)'
 
@@ -37,12 +36,16 @@ def merge(mmap, nframes, files, index_file):
     return writer
 
 
-def sorted_files(filename=constants.RESULTS_FILE):
+def files_by_size(filename=constants.CENSUS_RESULTS_FILE):
     def g():
-        for i, f in enumerate(yaml.safe_load_all(open(filename))):
+        for f in yaml.safe_load_all(open(filename)):
             yield f['nframes'], f['filename']
 
-    return [f for (_, f) in sorted(g())][:STOP_AFTER]
+    return sorted(g())
+
+
+def sorted_files(filename=constants.CENSUS_RESULTS_FILE):
+    return [f for (_, f) in files_by_size(filename)]
 
 
 if __name__ == '__main__':
