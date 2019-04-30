@@ -3,3 +3,4 @@ progress
 pyFFTW
 pyyaml
 scipy
+attrs
