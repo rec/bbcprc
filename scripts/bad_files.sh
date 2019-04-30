@@ -1,3 +1,5 @@
+# https://stackoverflow.com/a/8880633/43839
+
 declare -a bad_files=(
   "07000029.wav" "07030018.wav" "07030027.wav"
   "07030042.wav" "07030052.wav" "07030053.wav"
