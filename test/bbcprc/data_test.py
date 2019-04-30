@@ -17,18 +17,9 @@ def _samples_to_byte_list(sample):
 
 
 class DataTest(unittest.TestCase):
-    def assert_file(self, i):
-        samples = Data.samples_at(i)
-        with wave.open(Data.filenames[i]) as fp:
-            self.assertEqual(fp.getnframes(), len(samples))
-            j = random.randrange(len(samples))
-            frame = _get_wave_frames(fp, j, 1)
-            self.assertEqual(frame, _samples_to_byte_list(samples[j]))
-
     @skip_tests.no_source
     @skip_tests.no_corpus
     def test_first(self):
-        print('XXX', Data.filenames[0])
         with wave.open(Data.filenames[0]) as fp:
             frame = _get_wave_frames(fp, 0, 1)
         sample = _samples_to_byte_list(Data.samples[0][0])
@@ -36,6 +27,14 @@ class DataTest(unittest.TestCase):
 
     @skip_tests.no_source
     @skip_tests.no_corpus
-    def NO_test_files(self):
-        for i in random.sample(range(len(Data.names)), FILE_COUNT):
+    def test_files(self):
+        for i in random.sample(range(len(Data.filenames)), FILE_COUNT):
             self.assert_file(i)
+
+    def assert_file(self, i):
+        samples = Data.samples[i]
+        with wave.open(Data.filenames[i]) as fp:
+            self.assertEqual(fp.getnframes(), len(samples))
+            j = random.randrange(len(samples))
+            frame = _get_wave_frames(fp, j, 1)
+            self.assertEqual(frame, _samples_to_byte_list(samples[j]))
