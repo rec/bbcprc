@@ -5,7 +5,8 @@ offset for each one.
 
 import numpy as np
 from . elapsed_bar import elapsed_iterator
-from . import data, wave_to_numpy
+from . import constants, wave_to_numpy
+from . data import Data
 
 TOTAL_FRAMES = 76522480090
 END = '(END)'
@@ -33,8 +34,8 @@ def merge(mmap, nframes, files, index):
     return writer
 
 
-def find_bad():
-    for f in elapsed_iterator(data.Data.filenames):
+def find_bad(files):
+    for f in elapsed_iterator(files):
         try:
             wave_to_numpy.reader(f)
         except:
@@ -42,6 +43,7 @@ def find_bad():
 
 
 if __name__ == '__main__':
-    find_bad()
-    # merge(constants.CORPUS, TOTAL_FRAMES, data.Data.filenames,
-    #       data.Data.index)
+    if False:
+        find_bad(Data.filenames)
+    else:
+        merge(constants.CORPUS, TOTAL_FRAMES, Data.filenames, Data.index)
