@@ -1,5 +1,5 @@
 ROOT = '/data/bbcprc'
-MEMMAP = ROOT + '/memmap'
+MEMMAP = ROOT + '/data'
 CORPUS = MEMMAP + '/corpus.npy'
 INDEX = MEMMAP + '/index.npy'
 SOURCE = ROOT + '/source'
