@@ -1,7 +1,7 @@
 from collections import Counter
 from pathlib import Path
 import statistics, sys, yaml
-from . import constants
+from .. import constants
 
 CENSUS_FILE = 'results/census.yml'
 

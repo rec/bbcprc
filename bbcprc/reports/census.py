@@ -1,5 +1,6 @@
 import sys, traceback, wave, yaml
-from . import constants, files
+from .. import constants
+from .. util import files
 
 PARAMS = 'nchannels', 'nframes'
 EXPECTED = {

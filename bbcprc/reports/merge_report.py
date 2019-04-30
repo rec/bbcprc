@@ -1,5 +1,6 @@
 import itertools, yaml
-from . import constants, wave_to_numpy
+from .. import constants
+from .. data import wave_to_numpy
 
 
 def read():

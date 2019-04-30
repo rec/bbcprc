@@ -1,5 +1,5 @@
 import itertools, json, os, random, sys
-from .. import constants
+from ... import constants
 
 
 def get_score(piece_size=51):

@@ -1,6 +1,7 @@
 import os, tempfile, unittest
 import numpy.testing
-from bbcprc import files, merge
+from bbcprc.data import merge
+from bbcprc.util import files
 
 F1 = 'f1.wav'
 F2 = 'f2.wav'

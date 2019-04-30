@@ -1,5 +1,6 @@
 import numpy as np, wave
-from . import constants, files
+from .. import constants
+from .. util import files
 
 
 def from_frames(frames, nchannels=2, dtype='double'):

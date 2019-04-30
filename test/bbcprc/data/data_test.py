@@ -1,6 +1,6 @@
 import random, unittest, wave
 from bbcprc.data import Data
-from . import skip_tests
+from .. import skip_tests
 FILE_COUNT = 5
 
 

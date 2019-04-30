@@ -1,6 +1,6 @@
 import yaml
-from . import constants
-from . lazy_property import lazy_property
+from .. import constants
+from .. util.lazy_property import lazy_property
 from numpy.lib.format import open_memmap
 
 

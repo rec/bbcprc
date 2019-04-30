@@ -4,9 +4,9 @@ offset for each one.
 """
 
 import numpy as np
-from . elapsed_bar import elapsed_iterator
-from . import constants, wave_to_numpy
-from . data import Data
+from .. util.elapsed_bar import elapsed_iterator
+from .. import constants
+from . import Data, wave_to_numpy
 
 TOTAL_FRAMES = 76522480090
 END = '(END)'
