@@ -6,7 +6,7 @@ offset for each one.
 import numpy as np
 from .. util.elapsed_bar import elapsed_iterator
 from .. import constants
-from . import Data, wave_to_numpy
+from . import Corpus, wave_to_numpy
 
 TOTAL_FRAMES = 76522480090
 END = '(END)'
@@ -44,6 +44,6 @@ def find_bad(files):
 
 if __name__ == '__main__':
     if False:
-        find_bad(Data.filenames)
+        find_bad(Corpus.filenames)
     else:
-        merge(constants.CORPUS, TOTAL_FRAMES, Data.filenames, Data.index)
+        merge(constants.CORPUS, TOTAL_FRAMES, Corpus.filenames, Corpus.index)

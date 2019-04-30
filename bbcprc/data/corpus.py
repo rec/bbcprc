@@ -4,7 +4,7 @@ from .. util.lazy_property import lazy_property
 from numpy.lib.format import open_memmap
 
 
-class _Data:
+class _Corpus:
     @lazy_property
     def corpus(self):
         return open_memmap(constants.CORPUS, mode='r')
@@ -20,21 +20,21 @@ class _Data:
 
     @lazy_property
     def samples(self):
-        data = self
+        corpus = self
 
         class Samples:
             def __getitem__(self, i):
-                begin = data.index[i - 1] if i else 0
-                end = data.index[i]
-                return data.corpus[begin:end]
+                begin = corpus.index[i - 1] if i else 0
+                end = corpus.index[i]
+                return corpus.corpus[begin:end]
 
             def __len__(self):
                 return
 
             def __iter__(self):
-                return (self[i] for i in range(len(data.index)))
+                return (self[i] for i in range(len(corpus.index)))
 
         return Samples()
 
 
-Data = _Data()
+Corpus = _Corpus()

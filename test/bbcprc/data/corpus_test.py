@@ -1,5 +1,5 @@
 import random, unittest, wave
-from bbcprc.data import Data
+from bbcprc.data import Corpus
 from .. import skip_tests
 FILE_COUNT = 5
 
@@ -16,24 +16,24 @@ def _samples_to_byte_list(sample):
     return [llo, lhi, rlo, rhi]
 
 
-class DataTest(unittest.TestCase):
+class CorpusTest(unittest.TestCase):
     @skip_tests.no_source
     @skip_tests.no_corpus
     def test_first(self):
-        with wave.open(Data.filenames[0]) as fp:
+        with wave.open(Corpus.filenames[0]) as fp:
             frame = _get_wave_frames(fp, 0, 1)
-        sample = _samples_to_byte_list(Data.samples[0][0])
+        sample = _samples_to_byte_list(Corpus.samples[0][0])
         self.assertEqual(frame, sample)
 
     @skip_tests.no_source
     @skip_tests.no_corpus
     def test_files(self):
-        for i in random.sample(range(len(Data.filenames)), FILE_COUNT):
+        for i in random.sample(range(len(Corpus.filenames)), FILE_COUNT):
             self.assert_file(i)
 
     def assert_file(self, i):
-        samples = Data.samples[i]
-        with wave.open(Data.filenames[i]) as fp:
+        samples = Corpus.samples[i]
+        with wave.open(Corpus.filenames[i]) as fp:
             self.assertEqual(fp.getnframes(), len(samples))
             j = random.randrange(len(samples))
             frame = _get_wave_frames(fp, j, 1)

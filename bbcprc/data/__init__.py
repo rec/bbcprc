@@ -1,1 +1,1 @@
-from . data import Data  # noqa: F401
+from . corpus import Corpus  # noqa: F401
