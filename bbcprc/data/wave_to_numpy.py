@@ -41,5 +41,6 @@ def writer(filename, nframes, dtype='int16', **params):
 
 
 def memmap(filename, nframes=0, mode='r+', dtype='int16', shape=None):
+    # DEPRECATED
     shape = shape or (nframes, 2)
     return open_memmap(filename, mode=mode, dtype=dtype, shape=shape)
