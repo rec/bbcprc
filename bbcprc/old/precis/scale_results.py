@@ -6,7 +6,7 @@ def run():
     for line in open('/tmp/results.txt'):
         try:
             i, f, t, f = line.strip().split()
-        except:
+        except Exception:
             print('Failed to read line', line.strip())
         frames = int(f.strip())
         min_frames = min_frames or frames

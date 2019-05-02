@@ -1,5 +1,6 @@
-import wave, numpy as np
 from numpy.lib.format import open_memmap
+import numpy as np
+import wave
 
 DTYPES = {1: 'int8', 2: 'int16', 3: 'int8', 4: 'int32'}
 PARAMS = {'nchannels': 2,

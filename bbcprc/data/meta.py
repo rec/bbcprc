@@ -1,6 +1,7 @@
 from .. util.function import Function
 from .. util.git import Git
-import attr, datetime
+import attr
+import datetime
 
 
 def get_timestamp():

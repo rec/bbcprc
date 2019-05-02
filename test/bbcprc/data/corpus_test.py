@@ -1,6 +1,9 @@
-import random, unittest, wave
-from bbcprc.data.corpus import Corpus, SAMPLES
 from .. import skip_tests
+from bbcprc.data.corpus import Corpus, SAMPLES
+import random
+import unittest
+import wave
+
 FILE_COUNT = 5
 
 

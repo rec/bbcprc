@@ -1,6 +1,7 @@
-import numpy as np, wave
 from .. import constants
 from .. util import files
+import numpy as np
+import wave
 
 
 def from_frames(frames, nchannels=2, dtype='double'):

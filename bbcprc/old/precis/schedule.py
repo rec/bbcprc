@@ -1,5 +1,9 @@
-import itertools, json, os, random, sys
 from ... import constants
+import itertools
+import json
+import os
+import random
+import sys
 
 
 def get_score(piece_size=51):

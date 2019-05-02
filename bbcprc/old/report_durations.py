@@ -1,5 +1,7 @@
-import datetime, json, os
 from . import constants
+import datetime
+import json
+import os
 
 
 def to_duration(frames):

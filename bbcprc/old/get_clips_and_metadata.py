@@ -1,5 +1,7 @@
-import json, numpy as np, os
 from . import audio_io, constants, files, worker
+import json
+import numpy as np
+import os
 
 
 def write_metadata(filename, md):
@@ -8,7 +10,7 @@ def write_metadata(filename, md):
     try:
         with files.delete_on_fail(metadata_file) as fp:
             fp.write(data)
-    except:
+    except Exception:
         print('Failed to write:', metadata_file)
     else:
         print(filename, '->', data)
@@ -32,7 +34,7 @@ def write_one_clip(frames, channels, clip_file, seconds=1):
 
     try:
         audio_io.write_frames(clip_file, frames)
-    except:
+    except Exception:
         print('ERROR: clip', clip_file)
     else:
         print('Clip:', clip_file)

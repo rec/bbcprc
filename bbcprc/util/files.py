@@ -1,5 +1,8 @@
-import contextlib, os, sys, wave
 from pathlib import Path
+import contextlib
+import os
+import sys
+import wave
 
 FRAMERATE = 44100
 NCHANNELS = 2
@@ -32,10 +35,10 @@ def wave_writer(filename,
                 out.setnframes(nframes)
             try:
                 yield out
-            except:
+            except Exception:
                 if delete_on_fail:
                     try:
                         os.remove(filename)
-                    except:
+                    except Exception:
                         pass
                 raise

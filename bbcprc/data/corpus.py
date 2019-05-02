@@ -1,8 +1,8 @@
-import yaml
+from .. data import DATA
 from .. import constants
 from .. util.lazy_property import lazy_property
-from .. data import DATA
 from numpy.lib.format import open_memmap
+import yaml
 
 
 class Samples:

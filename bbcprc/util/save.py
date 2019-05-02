@@ -1,15 +1,16 @@
 """Serialize attrs - from hardback project"""
-import attr, yaml
+import attr
+import yaml
 
 
 def load(source, data):
     """Unserialize from JSON-like data (dicts, strings, etc) to a dataclass"""
     try:
         fields = attr.fields_dict(data.__class__)
-    except:
+    except Exception:
         try:
             return type(data)(source)
-        except:
+        except Exception:
             return source
 
     unknown = set(source) - set(fields)
@@ -38,7 +39,7 @@ class Saver:
             with open(self.filename) as fp:
                 load(yaml.safe_load(fp), self.data)
                 return True
-        except:
+        except Exception:
             return False
 
     def save(self):

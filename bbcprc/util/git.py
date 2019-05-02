@@ -1,4 +1,5 @@
-import attr, subprocess
+import attr
+import subprocess
 
 
 def _git(args):

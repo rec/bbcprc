@@ -1,4 +1,5 @@
-import contextlib, os
+import contextlib
+import os
 
 
 def with_suffix(root, suffix=None):
@@ -12,10 +13,10 @@ def delete_on_fail(fname, mode='wb', open=open, delete=True):
     with open(fname, mode) as fp:
         try:
             yield fp
-        except:
+        except Exception:
             if delete:
                 try:
                     os.remove(fname)
-                except:
+                except Exception:
                     pass
             raise

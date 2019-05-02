@@ -1,5 +1,9 @@
-import os, random, subprocess, time, traceback
 from . import constants
+import os
+import random
+import subprocess
+import time
+import traceback
 
 MINIMUM_SIZE = 100000
 
@@ -33,7 +37,7 @@ def download_one(filename):
     def remove():
         try:
             os.remove(outfile)
-        except:
+        except Exception:
             pass
 
     try:
@@ -49,7 +53,7 @@ def download_one(filename):
         remove()
         raise
 
-    except:
+    except Exception:
         traceback.print_exc()
         remove()
 

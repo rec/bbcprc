@@ -13,6 +13,6 @@ install:
 - pip install -r test_requirements.txt
 
 script:
-- flake8
-- mypy bbcprc
+- flake8 bbcprc test
+- mypy bbcprc test
 - pytest test

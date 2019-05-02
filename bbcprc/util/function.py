@@ -1,6 +1,6 @@
 from . lazy_property import lazy_property
-
-import attr, importlib
+import attr
+import importlib
 
 
 @attr.dataclass

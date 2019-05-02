@@ -1,7 +1,9 @@
 from ... import constants
-from ... util import files
 from ... old import audio_io
-import json, numpy as np, os
+from ... util import files
+import json
+import numpy as np
+import os
 
 # A Score maps the names of a precis to the length of that precis.
 SCORE = {

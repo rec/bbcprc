@@ -20,7 +20,8 @@ Writing:
 from . meta import Meta
 from .. import constants
 from .. util.save import Saver
-import copy, pathlib
+import copy
+import pathlib
 from numpy.lib.format import open_memmap
 
 # The memmap data will be backwards compatible to this version
@@ -69,7 +70,7 @@ class _DataContext:
         return self.data_file.with_suffix('.yml')
 
     def __enter__(self):
-        return self.data, self.meta
+        return self
 
     def __exit__(self, *args):
         if self.meta != self._original_meta:

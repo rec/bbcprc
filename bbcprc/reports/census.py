@@ -1,6 +1,9 @@
-import sys, traceback, wave, yaml
 from .. import constants
 from .. util import files
+import sys
+import traceback
+import wave
+import yaml
 
 PARAMS = 'nchannels', 'nframes'
 EXPECTED = {
@@ -25,7 +28,7 @@ def census(directory=constants.SOURCE):
         for filename in files.wave_files(directory):
             try:
                 yield report(str(filename))
-            except:
+            except Exception:
                 files.error('Exception on file', filename)
                 traceback.print_exc(file=sys.stderr)
 

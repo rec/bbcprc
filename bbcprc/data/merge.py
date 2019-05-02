@@ -30,7 +30,7 @@ def merge(mmap, nframes, files, index):
             frames += nsamples
             if frames != index[i]:
                 raise ValueError(f'bad frame count {frames}, {f}, {index[i]}')
-        except:
+        except Exception:
             print('In file', f)
             raise
     return writer
@@ -40,7 +40,7 @@ def find_bad(files):
     for f in elapsed_iterator(files):
         try:
             wave_to_numpy.reader(f)
-        except:
+        except Exception:
             print(f)
 
 
