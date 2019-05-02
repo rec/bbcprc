@@ -1,9 +1,9 @@
 import unittest
 from attr import dataclass, Factory
-from bbcprc.util.serialize import save, load
+from bbcprc.util.save import save, load
 
 
-class SerializeTest(unittest.TestCase):
+class SaveTest(unittest.TestCase):
     def test_round_trip(self):
         c = Child()
         c.bar = 'bar'

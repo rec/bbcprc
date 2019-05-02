@@ -1,6 +1,6 @@
 from . metadata import Metadata
 from .. import constants
-from .. util.serialize import Save
+from .. util.save import Saver
 import copy, pathlib
 from numpy.lib.format import open_memmap
 
@@ -42,7 +42,7 @@ class _DataContext:
 
     def __enter__(self):
         self.metadata = Metadata()
-        self.save_metadata = Save(self.metadata, self.metadata_file)
+        self.save_metadata = Saver(self.metadata, self.metadata_file)
 
         if not self.save_metadata.load() and 'r' in self.mode:
             raise FileNotFoundError('Could not read metadata file')
