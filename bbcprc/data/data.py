@@ -1,3 +1,22 @@
+"""
+
+Access to persistent npy data and metadata.
+
+Reading:
+
+    from bbcprc.data import DATA
+    with DATA.foo.bar.baz() as d:
+       sample = d.data[0x8000]
+
+
+Writing:
+    with DATA.foo.bar.baz('w', shape=(0x100000, 2)) as data:
+       data.metadata.column_names = 'left', 'right'
+       data.metadata.index_name = 'index'
+       # Write the data
+
+"""
+
 from . metadata import Metadata
 from .. import constants
 from .. util.save import Saver
@@ -9,7 +28,7 @@ NPY_FILE_VERSION = '1.16.3'
 
 
 class Attr:
-    def __init__(self, *address, root=constants.MEMMAP):
+    def __init__(self, *address, root=constants.ROOT):
         self.address = address
         self.root = root
 
@@ -20,7 +39,7 @@ class Attr:
         return _DataContext(self.address, self.root, **kwds)
 
 
-Data = Attr()
+DATA = Attr()
 
 
 class _DataContext:
@@ -31,6 +50,15 @@ class _DataContext:
         self.root = root
         self.mode = mode
         self.kwds = kwds
+        self.metadata = Metadata()
+        self.save_metadata = Saver(self.metadata, self.metadata_file)
+
+        if not self.save_metadata.load() and 'r' in self.mode:
+            raise FileNotFoundError('Could not read metadata file')
+
+        self.data = open_memmap(self.data_file, self.mode,
+                                version=NPY_FILE_VERSION, **self.kwds)
+        self._original_metadata = copy.deepcopy(self.metadata)
 
     @property
     def data_file(self):
@@ -41,15 +69,6 @@ class _DataContext:
         return self.data_file.with_suffix('.yml')
 
     def __enter__(self):
-        self.metadata = Metadata()
-        self.save_metadata = Saver(self.metadata, self.metadata_file)
-
-        if not self.save_metadata.load() and 'r' in self.mode:
-            raise FileNotFoundError('Could not read metadata file')
-
-        self.data = open_memmap(self.data_file, self.mode,
-                                version=NPY_FILE_VERSION, **self.kwds)
-        self._original_metadata = copy.deepcopy(self.metadata)
         return self
 
     def __exit__(self, *args):

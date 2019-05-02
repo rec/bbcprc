@@ -6,6 +6,7 @@ offset for each one.
 import numpy as np
 from .. util.elapsed_bar import elapsed_iterator
 from .. import constants
+from .. data import DATA
 from . import Corpus, wave_to_numpy
 
 TOTAL_FRAMES = 76522480090
@@ -13,6 +14,7 @@ END = '(END)'
 
 
 def merge(mmap, nframes, files, index):
+    # TODO: this should use data. resources now
     writer = wave_to_numpy.memmap(mmap, nframes, 'w+')
     frames = 0
 
@@ -46,4 +48,5 @@ if __name__ == '__main__':
     if False:
         find_bad(Corpus.filenames)
     else:
-        merge(constants.CORPUS, TOTAL_FRAMES, Corpus.filenames, Corpus.index)
+        merge(constants.CORPUS, TOTAL_FRAMES,
+              Corpus.filenames, DATA.index().data)

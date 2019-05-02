@@ -1,8 +1,12 @@
-import tempfile, unittest
-from bbcprc.data import data
+from bbcprc import constants
+from bbcprc.data import DATA
+from pyfakefs.fake_filesystem_unittest import TestCase as FakeTestCase
 
 
-class DataTest(unittest.TestCase):
+class DataTest(FakeTestCase):
+    def setUp(self):
+        self.setUpPyfakefs()
+        self.fs.create_dir(constants.ROOT)
+
     def test_first(self):
-        with tempfile.TemporaryDirectory() as td:
-            data.Attr(root=td)
+        self.assertTrue(DATA)

@@ -1,5 +1,5 @@
 import random, unittest, wave
-from bbcprc.data import Corpus
+from bbcprc.data.corpus import Corpus, SAMPLES
 from .. import skip_tests
 FILE_COUNT = 5
 
@@ -22,7 +22,7 @@ class CorpusTest(unittest.TestCase):
     def test_first(self):
         with wave.open(Corpus.filenames[0]) as fp:
             frame = _get_wave_frames(fp, 0, 1)
-        sample = _samples_to_byte_list(Corpus.samples[0][0])
+        sample = _samples_to_byte_list(SAMPLES[0][0])
         self.assertEqual(frame, sample)
 
     @skip_tests.no_source
@@ -32,7 +32,7 @@ class CorpusTest(unittest.TestCase):
             self.assert_file(i)
 
     def assert_file(self, i):
-        samples = Corpus.samples[i]
+        samples = SAMPLES[i]
         with wave.open(Corpus.filenames[i]) as fp:
             self.assertEqual(fp.getnframes(), len(samples))
             j = random.randrange(len(samples))

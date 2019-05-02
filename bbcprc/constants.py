@@ -1,7 +1,6 @@
-ROOT = '/data/bbcprc'
-MEMMAP = ROOT + '/data'
-CORPUS = MEMMAP + '/corpus.npy'
-INDEX = MEMMAP + '/index.npy'
+ROOT = '/data/bbcprc/data'
+CORPUS = ROOT + '/corpus.npy'
+INDEX = ROOT + '/index.npy'
 SOURCE = ROOT + '/source'
 
 FRAMERATE = 44100
@@ -11,4 +10,4 @@ FILENAMES = 'results/filenames.yml'
 
 # Probably not used
 CORPUS_INDEX = CORPUS + '.yml'
-SIMPLE_INDEX = MEMMAP + '/index.yml'
+SIMPLE_INDEX = ROOT + '/index.yml'
