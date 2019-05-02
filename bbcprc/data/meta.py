@@ -8,7 +8,7 @@ def get_timestamp():
 
 
 @attr.dataclass
-class Metadata:
+class Meta:
     function: Function = attr.Factory(Function)
     git: Git = attr.Factory(Git)
     column_names: list = attr.Factory(list)

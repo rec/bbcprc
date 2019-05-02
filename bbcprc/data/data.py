@@ -5,19 +5,19 @@ Access to persistent npy data and metadata.
 Reading:
 
     from bbcprc.data import DATA
-    with DATA.foo.bar.baz() as d:
+    with DATA.foo.bar.baz() as data, meta:
        sample = d.data[0x8000]
 
 
 Writing:
     with DATA.foo.bar.baz('w', shape=(0x100000, 2)) as data:
-       data.metadata.column_names = 'left', 'right'
-       data.metadata.index_name = 'index'
+       data.meta.column_names = 'left', 'right'
+       data.meta.index_name = 'index'
        # Write the data
 
 """
 
-from . metadata import Metadata
+from . meta import Meta
 from .. import constants
 from .. util.save import Saver
 import copy, pathlib
@@ -50,30 +50,30 @@ class _DataContext:
         self.root = root
         self.mode = mode
         self.kwds = kwds
-        self.metadata = Metadata()
-        self.save_metadata = Saver(self.metadata, self.metadata_file)
+        self.meta = Meta()
+        self.save_meta = Saver(self.meta, self.meta_file)
 
-        if not self.save_metadata.load() and 'r' in self.mode:
-            raise FileNotFoundError('Could not read metadata file')
+        if not self.save_meta.load() and 'r' in self.mode:
+            raise FileNotFoundError('Could not read meta file')
 
         self.data = open_memmap(self.data_file, self.mode,
                                 version=NPY_FILE_VERSION, **self.kwds)
-        self._original_metadata = copy.deepcopy(self.metadata)
+        self._original_meta = copy.deepcopy(self.meta)
 
     @property
     def data_file(self):
         return pathlib.Path(*self.address, self.root).with_suffix('.npy')
 
     @property
-    def metadata_file(self):
+    def meta_file(self):
         return self.data_file.with_suffix('.yml')
 
     def __enter__(self):
-        return self
+        return self.data, self.meta
 
     def __exit__(self, *args):
-        if self.metadata != self._original_metadata:
+        if self.meta != self._original_meta:
             if self.mode == 'r':
                 raise ValueError('Metadata changed in read mode')
             if self.mode != 'c':
-                self.save_metadata.save()
+                self.save_meta.save()
