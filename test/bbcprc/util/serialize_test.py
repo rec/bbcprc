@@ -1,6 +1,6 @@
 import unittest
 from attr import dataclass, Factory
-from bbcprc.util.serialize import serialize, unserialize
+from bbcprc.util.serialize import save, load
 
 
 class SerializeTest(unittest.TestCase):
@@ -9,8 +9,8 @@ class SerializeTest(unittest.TestCase):
         c.bar = 'bar'
         c.child.baz = 'baz'
 
-        ser = serialize(c)
-        d = unserialize(ser, Child())
+        ser = save(c)
+        d = load(ser, Child())
         self.assertEqual(c, d)
 
     def test_round_trip2(self):
@@ -19,8 +19,8 @@ class SerializeTest(unittest.TestCase):
         p1.child.bar = 'bar'
         p1.child.child.baz = 'baz'
 
-        ser = serialize(p1)
-        p2 = unserialize(ser, Parent())
+        ser = save(p1)
+        p2 = load(ser, Parent())
         self.assertEqual(p1, p2)
 
     def test_round_trip_fail(self):
@@ -29,8 +29,8 @@ class SerializeTest(unittest.TestCase):
         p1.child.bar = 'bar'
         p1.child.child.baz = 1  # wrong type!
 
-        ser = serialize(p1)
-        p2 = unserialize(ser, Parent())
+        ser = save(p1)
+        p2 = load(ser, Parent())
         self.assertNotEqual(p1, p2)
 
 
