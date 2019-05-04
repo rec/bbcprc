@@ -1,5 +1,6 @@
 from .. import skip_tests
-from bbcprc.data.corpus import Corpus, SAMPLES
+from bbcprc.data.samples import SAMPLES
+from bbcprc.data.corpus import Corpus
 import random
 import unittest
 import wave
