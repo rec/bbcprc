@@ -1,6 +1,5 @@
-"""Serialize attrs - from hardback project"""
+"""Serialize attrs"""
 import attr
-import yaml
 
 
 def load(source, data):
@@ -27,21 +26,3 @@ def load(source, data):
 def save(data):
     """Serialize from a data class to JSON-like data"""
     return attr.asdict(data)
-
-
-class Saver:
-    def __init__(self, filename, data):
-        self.filename = filename
-        self.data = data
-
-    def load(self):
-        try:
-            with open(self.filename) as fp:
-                load(yaml.safe_load(fp), self.data)
-                return True
-        except Exception:
-            return False
-
-    def save(self):
-        with open(self.filename, 'w') as fp:
-            yaml.safe_dump(save(self.data), fp)
