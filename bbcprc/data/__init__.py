@@ -1,1 +1,1 @@
-from . data import DATA  # noqa: F401
+from . address import ADDRESS  # noqa: F401

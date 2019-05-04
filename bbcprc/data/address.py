@@ -3,9 +3,9 @@ Access to persistent npy data and metadata.
 
 Reading:
 
-    from bbcprc.data import DATA
+    from bbcprc.data import ADDRESS
 
-    with DATA.foo.bar.baz() as d:
+    with ADDRESS.foo.bar.baz() as d:
        # If the file doesn't exist, you'd get an exception here.
 
        sample = d.data[0x8000]
@@ -13,8 +13,8 @@ Reading:
 
 Writing:
 
-    from bbcprc.data import DATA
-    with DATA.foo.bar.baz('w', shape=(0x100000, 2)) as d:
+    from bbcprc.data import ADDRESS
+    with ADDRESS.foo.bar.baz('w', shape=(0x100000, 2)) as d:
        d.metadata.column_names = 'left', 'right'
        d.metadata.index_name = 'index'
        d.data[:] = compute()
@@ -24,7 +24,7 @@ Writing:
 from . import context
 
 
-class Data:
+class Address:
     def __init__(self, *address):
         self.address = address
 
@@ -35,4 +35,4 @@ class Data:
         return context.Context(self.address, mode, *kwds)
 
 
-DATA = Data()
+ADDRESS = Address()
