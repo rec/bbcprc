@@ -5,20 +5,20 @@ Reading:
 
     from bbcprc.data import DATA
 
-    with READ.foo.bar.baz() as d:
+    with DATA.foo.bar.baz() as d:
        # If the file doesn't exist, you'd get an exception here.
 
        sample = d.data[0x8000]
-       # If you change d.meta, you get an exception after the block
+       # If you change d.metadata, you get an exception after the block
 
 Writing:
 
-    from bbcprc.data import WRITE
-    with WRITE.foo.bar.baz(shape=(0x100000, 2)) as d:
-       d.meta.column_names = 'left', 'right'
-       d.meta.index_name = 'index'
+    from bbcprc.data import DATA
+    with DATA.foo.bar.baz('w', shape=(0x100000, 2)) as d:
+       d.metadata.column_names = 'left', 'right'
+       d.metadata.index_name = 'index'
        d.data[:] = compute()
-       # Metadata is written at the end of the with block
+       # Metadatadata is written at the end of the with block
 """
 
 from . import context

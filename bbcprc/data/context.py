@@ -1,4 +1,4 @@
-from . meta import Meta
+from . metadata import Metadata
 from .. util.saver import Saver
 from numpy.lib.format import open_memmap
 import pathlib
@@ -11,25 +11,26 @@ WRITE_MODES = 'w', 'w+'
 
 
 class Context:
+    """A Context contains fields data and metadatadata """
     def __init__(self, path, mode, *args, **kwds):
         self.mode = mode
         path = pathlib.Path(*path)
         self.data_path = path.with_suffix('.npy')
-        self.meta_path = path.with_suffix('.yml')
+        self.metadata_path = path.with_suffix('.yml')
 
-        self.meta = Meta()
+        self.metadata = Metadata()
         mutable = (mode != 'r')
-        self._save_meta = Saver(self.meta, self.meta_path, mutable)
-        loaded = self._save_meta.load()
+        self._save_metadata = Saver(self.metadata, self.metadata_path, mutable)
+        loaded = self._save_metadata.load()
         if mode in READ_MODES:
             if not loaded:
-                raise ValueError('Did not load metadata in read mode')
+                raise ValueError('Did not load metadatadata in read mode')
             if args or kwds:
                 raise ValueError('Read takes no arguments')
             if not self.data_path.exists():
                 raise FileNotFoundError(self.data_path)
-            if not self.meta_path.exists():
-                raise FileNotFoundError(self.meta_path)
+            if not self.metadata_path.exists():
+                raise FileNotFoundError(self.metadata_path)
 
         elif mode in WRITE_MODES:
             self.data_path.parent.mkdir(exist_ok=True, parents=True)
