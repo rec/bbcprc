@@ -7,26 +7,42 @@ from . save_test import Parent
 class SaverTest(unittest.TestCase):
     def test_round_trip(self):
         with tempfile.NamedTemporaryFile() as tf:
-            parent = Parent()
-            with Saver(tf.name, parent) as saver:
+            saver = Saver(tf.name, Parent())
+            with saver as data:
                 self.assertFalse(saver.loaded)
-                parent.foo = 'bar'
-                parent.child.bar = 'baz'
-                parent.child.child.baz = 'bottom'
+                data.foo = 'bar'
+                data.child.bar = 'baz'
+                data.child.child.baz = 'bottom'
 
-            parent = Parent()
-            with Saver(tf.name, parent) as saver:
+            saver = Saver(tf.name, Parent())
+            with saver as data:
                 self.assertTrue(saver.loaded)
-                self.assertEqual(parent.foo, 'bar')
-                self.assertEqual(parent.child.bar, 'baz')
-                self.assertEqual(parent.child.child.baz, 'bottom')
+                self.assertEqual(data.foo, 'bar')
+                self.assertEqual(data.child.bar, 'baz')
+                self.assertEqual(data.child.child.baz, 'bottom')
 
-    def test_immutable(self):
+    def test_read_only(self):
         with tempfile.NamedTemporaryFile() as tf:
-            parent = Parent()
+            saver = Saver(tf.name, Parent(), read_only=True)
             with self.assertRaises(ValueError):
-                with Saver(tf.name, parent, mutable=False):
-                    parent.foo = 'bar'
+                with saver as data:
+                    data.foo = 'bar'
                     got_here = True
 
             self.assertTrue(got_here)
+
+    def test_no_save(self):
+        with tempfile.NamedTemporaryFile() as tf:
+            saver = Saver(tf.name, Parent(), must_write=False)
+            with saver as data:
+                self.assertFalse(saver.loaded)
+                data.foo = 'bar'
+                data.child.bar = 'baz'
+                data.child.child.baz = 'bottom'
+
+            saver = Saver(tf.name, Parent(), must_write=False)
+            with saver as data:
+                self.assertFalse(saver.loaded)
+                self.assertEqual(data.foo, '')
+                self.assertEqual(data.child.bar, '')
+                self.assertEqual(data.child.child.baz, '')

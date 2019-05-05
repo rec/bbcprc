@@ -50,4 +50,4 @@ if __name__ == '__main__':
         find_bad(Corpus.filenames)
     else:
         merge(constants.CORPUS, TOTAL_FRAMES,
-              Corpus.filenames, ADDRESS.index().data)
+              Corpus.filenames, ADDRESS.index())

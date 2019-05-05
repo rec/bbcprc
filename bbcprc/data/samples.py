@@ -5,11 +5,11 @@ from .. util.lazy_property import lazy_property
 class Samples:
     @lazy_property
     def index(self):
-        return ADDRESS.index().data
+        return ADDRESS.index()
 
     @lazy_property
     def corpus(self):
-        return ADDRESS.index().data
+        return ADDRESS.corpus()
 
     def __getitem__(self, i):
         begin = self.index[i - 1] if i else 0
