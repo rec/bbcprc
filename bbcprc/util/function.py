@@ -1,6 +1,5 @@
 from . lazy_property import lazy_property
 import attr
-import enum
 import importlib
 import traceback
 
@@ -18,13 +17,27 @@ class Error:
         self.type = ''
         self.tb = ''
         self.args = ()
+
         return self
 
     def __exit__(self, type, value, tb):
         self.type = getattr(type, '__name__', '')
         self.args = getattr(value, 'args', ())
         self.tb = tb and traceback.format_tb(tb) or ''
+
         return True
+
+
+@attr.dataclass
+class Output:
+    error: Error = attr.Factory(Error)
+    result: object = None
+
+    def run(self, function):
+        self.result = None
+        with self.error:
+            self.result = function()
+        return self.result
 
 
 @attr.dataclass
@@ -42,30 +55,5 @@ class Function:
             module = __builtins__
         return getattr(module, symbol)
 
-    def __call__(self, *args, **kwds):
-        args = self.args + args
-        kwds = dict(self.kwds, **kwds)
-        return self.function(*args, **kwds)
-
-
-@attr.dataclass
-class Job:
-    @enum.unique
-    class State(enum.IntEnum):
-        READY = 0
-        RUNNING = 1
-        FINISHED = 2
-
-    function: Function = attr.Factory(Function)
-    state: State = State.READY
-    error: Error = attr.Factory(Error)
-
-    def __call__(self, *args, **kwds):
-        result = None
-        self.state = Job.State.RUNNING
-
-        with self.error:
-            result = self.function(*args, **kwds)
-
-        self.state = Job.State.FINISHED
-        return result
+    def __call__(self):
+        return self.function(*self.args, **self.kwds)
