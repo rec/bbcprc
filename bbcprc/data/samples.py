@@ -1,15 +1,15 @@
-from . import ADDRESS
+from . import DATA
 from .. util.lazy_property import lazy_property
 
 
 class Samples:
     @lazy_property
     def index(self):
-        return ADDRESS.index()
+        return DATA.index().data
 
     @lazy_property
     def corpus(self):
-        return ADDRESS.corpus()
+        return DATA.corpus().data
 
     def __getitem__(self, i):
         begin = self.index[i - 1] if i else 0

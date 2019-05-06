@@ -3,9 +3,9 @@ Access to persistent npy data and metadata.
 
 Reading:
 
-    from bbcprc.data import ADDRESS
+    from bbcprc.data import DATA
 
-    with ADDRESS.foo.bar.baz() as d:
+    with DATA.foo.bar.baz() as d:
        # If the file doesn't exist, you'd get an exception here.
 
        sample = d.data[0x8000]
@@ -13,8 +13,8 @@ Reading:
 
 Writing:
 
-    from bbcprc.data import ADDRESS
-    with ADDRESS.foo.bar.baz('w', shape=(0x100000, 2)) as d:
+    from bbcprc.data import DATA
+    with DATA.foo.bar.baz('w', shape=(0x100000, 2)) as d:
        d.metadata.column_names = 'left', 'right'
        d.metadata.index_name = 'index'
        d.data[:] = compute()
@@ -95,7 +95,7 @@ class Address:
         return Data(self.address, mode, **kwds)
 
 
-ADDRESS = Address()
+DATA = Address()
 
 # From numpy/core/memmap.py, which isn't visible from the top...
 valid_filemodes = ["r", "c", "r+", "w+"]
