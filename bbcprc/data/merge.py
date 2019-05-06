@@ -5,7 +5,7 @@ offset for each one.
 
 from . corpus import Corpus
 from . import wave_to_numpy
-from .. data import DATA
+from .. data import READ
 from .. import constants
 from .. util.elapsed_bar import elapsed_iterator
 import numpy as np
@@ -49,5 +49,4 @@ if __name__ == '__main__':
     if False:
         find_bad(Corpus.filenames)
     else:
-        merge(constants.CORPUS, TOTAL_FRAMES,
-              Corpus.filenames, DATA.index())
+        merge(constants.CORPUS, TOTAL_FRAMES, Corpus.filenames, READ.index())

@@ -1,11 +1,11 @@
 from .. data.corpus import Corpus
-from .. data import DATA
+from .. data import WRITE
 import pathlib
 
 
 def extract():
     shape = (len(Corpus.filenames),)
-    data = DATA.filenames('w+', dtype='int32', shape=shape).data
+    data = WRITE.filenames(dtype='int32', shape=shape)
     data[:] = [int(pathlib.Path(f).stem) for f in Corpus.filenames]
 
     print('Extracted', len(Corpus.filenames), 'filenames')
