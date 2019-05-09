@@ -1,6 +1,5 @@
 coverage
 flake8
-icecream
 import_all
 mypy
 pyfakefs
