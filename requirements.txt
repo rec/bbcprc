@@ -1,6 +1,6 @@
+attrs
 numpy
 progress
 pyFFTW
 pyyaml
 scipy
-attrs

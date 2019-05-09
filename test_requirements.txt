@@ -2,6 +2,6 @@ coverage
 flake8
 icecream
 import_all
-pytest
-pyfakefs
 mypy
+pyfakefs
+pytest
