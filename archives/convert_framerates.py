@@ -1,7 +1,10 @@
-import json, os, numpy as np
-from . import audio_io, constants, files
-
+from . import audio_io
+from . import constants
+from . import files
 from scipy import signal
+import json
+import numpy as np
+import os
 
 ERROR = 'fp.getframerate() != constants.FRAME_RATE: 48000'
 

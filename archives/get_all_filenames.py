@@ -1,4 +1,5 @@
-import glob, re
+import glob
+import re
 
 GLOB = '/Users/tom/Downloads/bbcsfx-pages/*.htm'
 FILES = list(glob.glob(GLOB))
