@@ -24,11 +24,12 @@ def get_score(piece_size=51):
 
         for f, b, e in zip(files, begins, ends):
             score.setdefault(f, []).extend([b, e])
+
     file_lengths.sort()
     add()
     file_lengths.reverse()
     add()
-    assert(all(len(i) == 4 for i in score.values()))
+    assert all(len(i) == 4 for i in score.values())
 
     score = list(score.items())
     random.shuffle(score)
@@ -36,7 +37,7 @@ def get_score(piece_size=51):
     assert not (len(score) % piece_size)
     pieces = len(score) // piece_size
     for i in range(pieces):
-        yield score[piece_size * i:piece_size * (i + 1)]
+        yield score[piece_size * i : piece_size * (i + 1)]
 
 
 if __name__ == '__main__':

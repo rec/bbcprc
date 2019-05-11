@@ -23,8 +23,9 @@ def read_frames(filename):
 
 
 @contextlib.contextmanager
-def wave_writer(filename,
-                nframes=0, delete_on_fail=False, nchannels=NCHANNELS):
+def wave_writer(
+    filename, nframes=0, delete_on_fail=False, nchannels=NCHANNELS
+):
     with open(filename, 'wb') as fp:
         # If you use wave.open directly, it isn't seekable!
         with wave.open(fp) as out:

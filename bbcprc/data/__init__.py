@@ -1,6 +1,6 @@
 import functools
-from . opener import data
-from . opener import metadata
+from .opener import data
+from .opener import metadata
 
 
 class _Address:

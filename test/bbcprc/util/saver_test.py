@@ -1,7 +1,7 @@
 import tempfile
 import unittest
 from bbcprc.util.saver import Saver
-from . save_test import Parent
+from .save_test import Parent
 
 
 class SaverTest(unittest.TestCase):

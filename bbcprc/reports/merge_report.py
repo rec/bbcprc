@@ -1,4 +1,4 @@
-from .. data import wave_to_numpy
+from ..data import wave_to_numpy
 from .. import constants
 import itertools
 import yaml
@@ -11,8 +11,9 @@ def read():
 
 
 def write_numpy(data):
-    mmap = wave_to_numpy.memmap(constants.INDEX, mode='w+', dtype='uint64',
-                                shape=(len(data),))
+    mmap = wave_to_numpy.memmap(
+        constants.INDEX, mode='w+', dtype='uint64', shape=(len(data),)
+    )
     mmap[:] = data
 
 

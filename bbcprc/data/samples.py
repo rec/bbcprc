@@ -1,5 +1,5 @@
 from . import READ
-from .. util.lazy_property import lazy_property
+from ..util.lazy_property import lazy_property
 
 
 class Samples:

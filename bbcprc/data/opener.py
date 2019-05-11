@@ -17,9 +17,9 @@ Writing:
     d =  WRITE.foo.bar.baz('w', shape=(0x100000, 2))
 """
 
-from . metadata import Metadata
+from .metadata import Metadata
 from .. import constants
-from .. util.saver import Saver
+from ..util.saver import Saver
 from numpy.lib.format import open_memmap
 from pathlib import Path
 
@@ -40,8 +40,9 @@ def metadata(mode, address, root=constants.ROOT):
     if 'w' not in 'mode' and not path.exists():
         raise FileNotFoundError(path)
 
-    return Saver(path, Metadata(),
-                 read_only=(mode == 'r'), must_write=('+' in mode))
+    return Saver(
+        path, Metadata(), read_only=(mode == 'r'), must_write=('+' in mode)
+    )
 
 
 def data(mode, address, root=constants.ROOT, **kwds):
@@ -59,8 +60,7 @@ def data(mode, address, root=constants.ROOT, **kwds):
     else:
         missing = PROPERTIES_REQUIRED_FOR_WRITE - set(kwds)
         if missing:
-            raise ValueError(
-                'Missing required properties', *sorted(missing))
+            raise ValueError('Missing required properties', *sorted(missing))
 
         data_path.parent.mkdir(exist_ok=True, parents=True)
         kwds = dict(kwds, version=NPY_FILE_VERSION)
@@ -77,5 +77,5 @@ mode_equivalents = {
     'readonly': 'r',
     'copyonwrite': 'c',
     'readwrite': 'r+',
-    'write': 'w+'
-    }
+    'write': 'w+',
+}

@@ -1,4 +1,4 @@
-from .. data import READ, WRITE
+from ..data import READ, WRITE
 from icecream import ic
 
 DIVISOR = 1

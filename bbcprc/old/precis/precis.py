@@ -1,6 +1,6 @@
 from ... import constants
-from ... old import audio_io
-from ... util import files
+from ...old import audio_io
+from ...util import files
 import json
 import numpy as np
 import os
@@ -26,7 +26,7 @@ def mix_source_cyclically_into_output(source, out, begin):
     begin is the time start of the source within the entire piece.
     """
 
-    source_index = 0              # The sample index in the source
+    source_index = 0  # The sample index in the source
     out_index = begin % len(out)  # The sample index in the output
 
     # We advance these two indices through the source and output in parallel.
@@ -38,11 +38,13 @@ def mix_source_cyclically_into_output(source, out, begin):
         if out_remains >= source_remains:
             # There is more space remaining in the output than there is source.
             # Copy all the remaining source to out, and we're done.
-            out[out_index:out_index + source_remains] += source[source_index:]
+            out[out_index : out_index + source_remains] += source[
+                source_index:
+            ]
             return
 
         # Copy only part of the remaining source to out, and loop.
-        out[out_index:] += source[source_index:source_index + out_remains]
+        out[out_index:] += source[source_index : source_index + out_remains]
         source_index += out_remains
 
         # Each segment after the first starts writing at 0 in the output buffer

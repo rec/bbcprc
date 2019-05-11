@@ -1,5 +1,5 @@
-from .. util.function import Function
-from .. util.git import Git
+from ..util.function import Function
+from ..util.git import Git
 import attr
 import datetime
 

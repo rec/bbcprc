@@ -1,5 +1,5 @@
 from .. import constants
-from .. util import files
+from ..util import files
 import numpy as np
 import wave
 
@@ -30,8 +30,9 @@ def read_frames(filename):
     if fp.getnchannels() > 2:
         raise ValueError('fp.getnchannels() > 2')
     if fp.getframerate() != constants.FRAME_RATE:
-        raise ValueError('fp.getframerate() != constants.FRAME_RATE: %s'
-                         % fp.getframerate())
+        raise ValueError(
+            'fp.getframerate() != constants.FRAME_RATE: %s' % fp.getframerate()
+        )
     return frames, fp.getnchannels()
 
 

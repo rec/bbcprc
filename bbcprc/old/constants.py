@@ -1,5 +1,5 @@
 import os
-from .. util import files
+from ..util import files
 
 TIMEOUT = 2
 

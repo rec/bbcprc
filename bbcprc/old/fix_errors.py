@@ -7,7 +7,7 @@ SUFFIX = '.json'
 def fix_errors(filename):
     if not filename.endswith(SUFFIX):
         return
-    filename = filename[:-len(SUFFIX)]
+    filename = filename[: -len(SUFFIX)]
 
     metadata_file = constants.metadata(filename)
     metadata = json.load(open(metadata_file))

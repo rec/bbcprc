@@ -1,4 +1,4 @@
-from . lazy_property import lazy_property
+from .lazy_property import lazy_property
 import attr
 import importlib
 import traceback

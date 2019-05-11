@@ -3,11 +3,11 @@ Merges many .WAV files into one great big one and keeps track of the sample
 offset for each one.
 """
 
-from . corpus import Corpus
+from .corpus import Corpus
 from . import wave_to_numpy
-from .. data import READ
+from ..data import READ
 from .. import constants
-from .. util.elapsed_bar import elapsed_iterator
+from ..util.elapsed_bar import elapsed_iterator
 import numpy as np
 
 TOTAL_FRAMES = 76522480090
@@ -27,7 +27,7 @@ def merge(mmap, nframes, files, index):
                 reader = np.repeat(reader, 2, axis=1)
             elif nchannels != 2:
                 raise ValueError
-            writer[frames:frames + nsamples] = reader
+            writer[frames : frames + nsamples] = reader
             frames += nsamples
             if frames != index[i]:
                 raise ValueError(f'bad frame count {frames}, {f}, {index[i]}')

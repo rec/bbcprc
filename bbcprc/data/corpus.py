@@ -1,5 +1,5 @@
 from .. import constants
-from .. util.lazy_property import lazy_property
+from ..util.lazy_property import lazy_property
 import yaml
 
 

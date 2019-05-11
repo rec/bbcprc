@@ -3,12 +3,14 @@ import numpy as np
 import wave
 
 DTYPES = {1: 'int8', 2: 'int16', 3: 'int8', 4: 'int32'}
-PARAMS = {'nchannels': 2,
-          'sampwidth': 2,
-          'framerate': 44100,
-          'nframes': 0,
-          'comptype': 'NONE',
-          'compname': 'not compressed'}
+PARAMS = {
+    'nchannels': 2,
+    'sampwidth': 2,
+    'framerate': 44100,
+    'nframes': 0,
+    'comptype': 'NONE',
+    'compname': 'not compressed',
+}
 
 
 def _shape(p):
@@ -23,7 +25,8 @@ def reader(filename):
     dtype = DTYPES[params.sampwidth]
     shape = _shape(params)
     return np.memmap(
-        filename, mode='r', dtype=dtype, offset=offset, shape=shape)
+        filename, mode='r', dtype=dtype, offset=offset, shape=shape
+    )
 
 
 def writer(filename, nframes, dtype='int16', **params):

@@ -25,9 +25,14 @@ class MergeTest(unittest.TestCase):
 
             writer = merge.merge(MMAP, 8, (F1, F2), [3, 8])
             expected = [
-                [0x100, 0x100], [0x302, 0x302], [0x504, 0x504],
-
-                [0x2220, 0x2624], [0x2a28, 0x2e2c], [0x3230, 0x3634],
-                [0x3a38, 0x3e3c], [0x4240, 0x4644]]
+                [0x100, 0x100],
+                [0x302, 0x302],
+                [0x504, 0x504],
+                [0x2220, 0x2624],
+                [0x2A28, 0x2E2C],
+                [0x3230, 0x3634],
+                [0x3A38, 0x3E3C],
+                [0x4240, 0x4644],
+            ]
 
             numpy.testing.assert_array_equal(expected, writer)
