@@ -1,5 +1,5 @@
-from ..data.corpus import Corpus
 from ..data import WRITE
+from ..data.corpus import Corpus
 import pathlib
 
 

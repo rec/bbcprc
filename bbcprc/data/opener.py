@@ -17,9 +17,9 @@ Writing:
     d =  WRITE.foo.bar.baz('w', shape=(0x100000, 2))
 """
 
-from .metadata import Metadata
 from .. import constants
 from ..util.saver import Saver
+from .metadata import Metadata
 from numpy.lib.format import open_memmap
 from pathlib import Path
 

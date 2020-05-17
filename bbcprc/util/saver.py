@@ -1,7 +1,7 @@
 """Serialize attrs - from hardback project"""
+from . import save
 import copy
 import yaml
-from . import save
 
 
 class Saver:

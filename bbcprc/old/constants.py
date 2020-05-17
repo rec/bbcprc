@@ -1,5 +1,5 @@
-import os
 from ..util import files
+import os
 
 TIMEOUT = 2
 

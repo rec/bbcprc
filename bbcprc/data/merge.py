@@ -3,11 +3,11 @@ Merges many .WAV files into one great big one and keeps track of the sample
 offset for each one.
 """
 
-from .corpus import Corpus
 from . import wave_to_numpy
-from ..data import READ
 from .. import constants
+from ..data import READ
 from ..util.elapsed_bar import elapsed_iterator
+from .corpus import Corpus
 import numpy as np
 
 TOTAL_FRAMES = 76522480090

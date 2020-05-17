@@ -1,6 +1,6 @@
-import datetime
 from pathlib import Path
 from progress.bar import ChargingBar
+import datetime
 
 
 class ElapsedBar(ChargingBar):

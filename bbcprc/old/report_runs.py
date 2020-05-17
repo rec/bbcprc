@@ -1,5 +1,5 @@
-import os
 from . import constants, download
+import os
 
 
 def to_runs(files):

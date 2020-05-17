@@ -1,6 +1,6 @@
-import unittest
 from attr import dataclass, Factory
 from bbcprc.util.save import save, load
+import unittest
 
 
 class SaveTest(unittest.TestCase):

@@ -1,5 +1,5 @@
-import json
 from . import constants, get_clips_and_metadata, worker
+import json
 
 SUFFIX = '.json'
 

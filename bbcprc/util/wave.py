@@ -1,6 +1,6 @@
-import wave
-from wave import Error, Wave_write
 from chunk import Chunk
+from wave import Error, Wave_write
+import wave
 
 """A WAV reader that keeps track of chunks"""
 

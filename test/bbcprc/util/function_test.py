@@ -1,5 +1,5 @@
-import unittest
 from bbcprc.util.function import Function, Output
+import unittest
 
 
 def ok(*args, **kwds):

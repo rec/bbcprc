@@ -2,10 +2,10 @@
 Rules to skip tests based on environment variables
 """
 
-import os
-from unittest import skipIf
-from pathlib import Path
 from bbcprc import constants
+from pathlib import Path
+from unittest import skipIf
+import os
 
 
 def _check(env):
