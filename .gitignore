@@ -102,3 +102,6 @@ ENV/
 
 # Target files
 *.wav
+
+.direnv
+.envrc
