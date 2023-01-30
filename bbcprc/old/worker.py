@@ -1,5 +1,6 @@
 import multiprocessing as mp
 import os
+import random
 import time
 import traceback
 
@@ -69,3 +70,12 @@ def work_on(function, items, count=DEFAULT_COUNT):
 
 def work_on_files(function, root, count=DEFAULT_COUNT):
     work_on(function, sorted(os.listdir(root)), count)
+
+
+if __name__ = '__main__':
+
+    def test_function(name):
+        print(name)
+        time.sleep(random.uniform(0.05, 0.3))
+
+    work_on(test_function, range(128))
